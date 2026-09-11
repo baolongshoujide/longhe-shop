@@ -17,12 +17,26 @@ export default defineConfig({
       resolvers: [ElementPlusResolver()],
     }),
     Components({
-      resolvers: [ElementPlusResolver()],
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: "sass", // ✅关键！使用sass源码方式引入样式，才能修改主题
+        }),
+      ],
     }),
   ],
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        // 自动导入主题文件 + 全局变量文件，顺序不能颠倒
+        additionalData: `
+          @use "@/styles/element/index.scss" as *;
+        `,
+      },
     },
   },
 });
