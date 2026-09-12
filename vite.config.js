@@ -35,6 +35,7 @@ export default defineConfig({
         // 自动导入主题文件 + 全局变量文件，顺序不能颠倒
         additionalData: `
           @use "@/styles/element/index.scss" as *;
+          @use "@/styles/var.scss" as *;
         `,
       },
     },

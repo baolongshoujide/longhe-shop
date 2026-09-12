@@ -7,6 +7,7 @@ import App from "./App.vue";
 import router from "./router";
 
 import { test } from "./api/testApi";
+import "@/styles/common.scss";
 test().then((res) => {
   console.log(res);
 });
