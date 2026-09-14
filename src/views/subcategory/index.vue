@@ -1,7 +1,8 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { getCategoryFilterAPI } from "@/api/category";
+import { getCategoryFilterAPI, getSubCategoryAPI } from "@/api/category";
 import { ref } from "vue";
+import GoodsItem from "../Home/components/GoodsItem.vue";
 
 const route = useRoute();
 const category = ref([]);
@@ -9,9 +10,22 @@ const category = ref([]);
 const getCategory = async () => {
   const res = await getCategoryFilterAPI(route.params.id);
   category.value = res.data.result;
-  console.log(category.value);
 };
 getCategory();
+
+const goodList = ref([]);
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: "publishTime",
+});
+const getGoodList = async () => {
+  const res = await getSubCategoryAPI(reqData.value);
+  goodList.value = res.data.result.items;
+  console.log(goodList.value);
+};
+getGoodList();
 </script>
 
 <template>
@@ -34,6 +48,7 @@ getCategory();
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
+        <GoodsItem v-for="item in goodList" :good="item" :key="item.id"></GoodsItem>
       </div>
     </div>
   </div>

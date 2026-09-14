@@ -12,3 +12,11 @@ export const getCategoryFilterAPI = (id) => {
     },
   });
 };
+
+export const getSubCategoryAPI = (data) => {
+  return request({
+    url: "/category/goods/temporary",
+    method: "POST",
+    data,
+  });
+};
