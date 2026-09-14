@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
-export const getBannerAPI = () => {
-  return request.get("/home/banner");
+export const getBannerAPI = (distributionSite = 1) => {
+  return request.get("/home/banner", { params: { distributionSite } });
 };
 
 export const getNewAPI = () => {
@@ -10,4 +10,8 @@ export const getNewAPI = () => {
 
 export const getHotAPI = () => {
   return request.get("/home/hot");
+};
+
+export const getGoodsAPI = () => {
+  return request.get("/home/goods");
 };

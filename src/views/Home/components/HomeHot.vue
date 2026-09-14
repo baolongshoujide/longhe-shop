@@ -6,7 +6,6 @@ import { getHotAPI } from "@/api/home.js";
 const hotList = ref([]);
 const getHotList = async () => {
   const res = await getHotAPI();
-  console.log(res);
   hotList.value = res.data.result;
 };
 getHotList();
@@ -28,7 +27,7 @@ getHotList();
   <ul class="goods-list">
     <li v-for="item in hotList" :key="item.id">
       <RouterLink to="/">
-        <img :src="item.picture" alt="" />
+        <img v-img-lazy="item.picture" alt="" />
         <p class="name">{{ item.name }}</p>
         <p class="price">&yen;{{ item.price }}</p>
       </RouterLink>
