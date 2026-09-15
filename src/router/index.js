@@ -20,6 +20,10 @@ const router = createRouter({
           path: "category/sub/:id",
           component: () => import("@/views/subcategory/index.vue"),
         },
+        {
+          path: "detail/:id",
+          component: () => import("@/views/Detail/index.vue"),
+        },
       ],
     },
     {
@@ -27,6 +31,7 @@ const router = createRouter({
       component: Login,
     },
   ],
+  // 切换路由的时候自动回到顶部
   scrollBehavior() {
     return {
       top: 0,
