@@ -2,6 +2,7 @@
 import { getGoodsAPI } from "@/api/detail";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
+import DetailHot from "./components/DetailHot.vue";
 
 const goodsList = ref({});
 const route = useRoute();
@@ -25,7 +26,7 @@ onMounted(() => getGoodList());
           <el-breadcrumb-item :to="{ path: `/category/sub/${goodsList.categories?.[0].id}` }"
             >{{ goodsList.categories?.[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>抓绒保暖，毛毛虫子儿童运动鞋</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goodsList.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -54,7 +55,8 @@ onMounted(() => getGoodList());
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{ goodsList.brand.name }}</p>
+                  <p v-if="goodsList.brand?.name">{{ goodsList.brand.name }}</p>
+                  <p v-else class="no-brand">这个商家很懒<br />什么也没留下</p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
@@ -118,7 +120,10 @@ onMounted(() => getGoodList());
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
-            <div class="goods-aside"></div>
+            <div class="goods-aside">
+              <DetailHot title="24小时热销榜" :hotType="1"></DetailHot>
+              <DetailHot title="周热销榜" :hotType="2"></DetailHot>
+            </div>
           </div>
         </div>
       </div>
@@ -273,7 +278,8 @@ onMounted(() => getGoodList());
       }
 
       p {
-        &:first-child {
+        &:first-child,
+        .no {
           color: #999;
         }
 
@@ -296,6 +302,9 @@ onMounted(() => getGoodList());
             color: $xtxColor;
             cursor: pointer;
           }
+        }
+        &.no-brand {
+          color: #999;
         }
       }
     }
