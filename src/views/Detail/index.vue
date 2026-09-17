@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
 import ImageView from "@/components/ImageView/index.vue";
+import XtxSku from "@/components/XtxSku/index.vue";
 
 const goodsList = ref({});
 const route = useRoute();
@@ -11,6 +12,11 @@ const getGoodList = async () => {
   const res = await getGoodsAPI(route.params.id);
   goodsList.value = res.data.result;
   console.log(goodsList.value);
+};
+
+// sku给操作时
+const skuChange = (sku) => {
+  console.log(sku);
 };
 onMounted(() => getGoodList());
 </script>
@@ -86,7 +92,7 @@ onMounted(() => getGoodList());
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="goodsList" @change="skuChange"></XtxSku>
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
