@@ -1,7 +1,7 @@
 <template>
   <div class="goods-sku">
     <dl v-for="item in goods.specs" :key="item.id">
-      <dt>{{ item.name }}1</dt>
+      <dt>{{ item.name }}</dt>
       <dd>
         <template v-for="val in item.values" :key="val.name">
           <img
@@ -14,7 +14,7 @@
             :class="{ selected: val.selected, disabled: val.disabled }"
             @click="clickSpecs(item, val)"
             v-else
-            >{{ val.name }}2</span
+            >{{ val.name }}</span
           >
         </template>
       </dd>
