@@ -20,7 +20,6 @@ const getHotList = async () => {
     type: props.hotType,
   });
   hotList.value = res.data.result;
-  console.log(hotList.value);
 };
 getHotList();
 </script>

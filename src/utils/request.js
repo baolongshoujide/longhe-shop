@@ -1,11 +1,11 @@
 import axios from "axios";
 import { ElMessage } from "element-plus";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/userStore";
 import router from "@/router";
 
 const httpInstance = axios.create({
   baseURL: "https://pcapi-xiaotuxian-front-devtest.itheima.net",
-  timeout: 5000,
+  timeout: 10000,
 });
 
 // 添加请求拦截器
@@ -35,7 +35,6 @@ httpInstance.interceptors.response.use(
   function (error) {
     // 状态码不在 2xx 范围内的响应会触发此函数
     // 处理响应错误
-    console.log(error);
 
     ElMessage.warning(error.response?.data?.message);
     if (error.response?.status === 401) {

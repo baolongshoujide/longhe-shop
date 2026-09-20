@@ -1,0 +1,113 @@
+import { defineStore } from "pinia";
+import { computed, ref } from "vue";
+import { delCartAPI, addCartAPI, getCartListAPI } from "@/api/cart";
+import { ElMessage } from "element-plus";
+
+import { useUserStore } from "./userStore";
+
+export const useCartStore = defineStore(
+  "cart",
+  () => {
+    const useStore = useUserStore();
+    const isLogin = computed(() => useStore.user?.result?.token);
+    const cartList = ref([]);
+
+    const getCartList = async () => {
+      const res = await getCartListAPI();
+      cartList.value = res.data.result;
+      console.log(cartList.value);
+    };
+    const addCart = async (goods) => {
+      if (isLogin.value) {
+        await addCartAPI(goods);
+        getCartList();
+      } else {
+        const item = cartList.value.find((item) => {
+          return item.skuId === goods.skuId;
+        });
+        if (item) {
+          item.count += goods.count;
+        } else {
+          cartList.value.push(goods);
+        }
+      }
+    };
+    const delCart = async (id) => {
+      if (isLogin.value) {
+        if (!Array.isArray(id)) {
+          id = [id];
+        }
+        await delCartAPI(id);
+        getCartList();
+      } else {
+        if (id) {
+          cartList.value = cartList.value.filter((item) => {
+            return item.skuId !== id;
+          });
+        } else {
+          ElMessage.error("商品不存在");
+        }
+      }
+    };
+    const clearCartList = () => {
+      cartList.value = [];
+    };
+
+    const count = computed(() => {
+      return cartList.value.reduce((sum, item) => {
+        return sum + item.count;
+      }, 0);
+    });
+    const price = computed(() => {
+      return cartList.value.reduce((sum, item) => {
+        return sum + item.count * item.price;
+      }, 0);
+    });
+
+    const isAll = computed(() => {
+      return (
+        cartList.value.length > 0 &&
+        cartList.value.every((item) => {
+          return item.selected;
+        })
+      );
+    });
+    const changeAll = (selected) => {
+      cartList.value.forEach((item) => {
+        item.selected = selected;
+      });
+    };
+    const checkedNum = computed(() => {
+      return cartList.value.reduce((sum, item) => {
+        if (item.selected) {
+          sum += item.count;
+        }
+        return sum;
+      }, 0);
+    });
+    const checkedPrice = computed(() => {
+      return cartList.value.reduce((sum, item) => {
+        if (item.selected) {
+          sum += item.count * item.price;
+        }
+        return sum;
+      }, 0);
+    });
+    return {
+      cartList,
+      addCart,
+      delCart,
+      count,
+      price,
+      isAll,
+      changeAll,
+      checkedNum,
+      checkedPrice,
+      clearCartList,
+      getCartList,
+    };
+  },
+  {
+    persist: true,
+  },
+);

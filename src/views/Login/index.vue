@@ -2,7 +2,7 @@
 import { useRouter } from "vue-router";
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
-import { useUserStore } from "@/stores/user";
+import { useUserStore } from "@/stores/userStore";
 
 const form = ref({
   name: "heima282",
@@ -18,7 +18,6 @@ const rules = ref({
   isTrue: [
     {
       validator: (rule, value, callback) => {
-        console.log(value);
         if (value) {
           callback();
         } else {
@@ -34,7 +33,6 @@ const userStore = useUserStore();
 const submit = () => {
   // 判断表单上所有要求结果是否为true
   formRef.value.validate(async (a) => {
-    console.log(a);
     if (a) {
       const { name, password } = form.value;
 

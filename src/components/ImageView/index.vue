@@ -1,16 +1,13 @@
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 import { useMouseInElement } from "@vueuse/core";
 
 // 通过props传过来图片
-const prop = defineProps({
+defineProps({
   imageList: {
     type: Array,
     default: () => [],
   },
-});
-onMounted(() => {
-  console.log(prop.imageList);
 });
 
 // 图片列表

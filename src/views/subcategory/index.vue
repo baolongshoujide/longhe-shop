@@ -23,7 +23,6 @@ const reqData = ref({
 const getGoodList = async () => {
   const res = await getSubCategoryAPI(reqData.value);
   goodList.value = res.data.result.items;
-  console.log(goodList.value);
 };
 getGoodList();
 const tabChange = () => {
