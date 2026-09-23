@@ -40,6 +40,20 @@ const router = createRouter({
           path: "paycallback",
           component: () => import("@/views/Pay/PayBack.vue"),
         },
+        {
+          path: "member",
+          component: () => import("@/views/Member/index.vue"),
+          children: [
+            {
+              path: "/member/user",
+              component: () => import("@/views/Member/components/Userinfo.vue"),
+            },
+            {
+              path: "/member/order",
+              component: () => import("@/views/Member/components/UserOrder.vue"),
+            },
+          ],
+        },
       ],
     },
     {

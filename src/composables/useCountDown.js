@@ -13,6 +13,9 @@ export const useCountDown = () => {
     formatTime.value = time;
     timer = setInterval(() => {
       formatTime.value--;
+      if (formatTime.value <= 0) {
+        clearInterval(timer);
+      }
     }, 1000);
   };
   //   组件销毁时消除定时器

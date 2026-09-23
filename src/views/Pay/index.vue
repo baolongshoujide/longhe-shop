@@ -8,11 +8,7 @@ const payInfo = ref({});
 const route = useRoute();
 const { dayjsTime, start } = useCountDown();
 const getOrder = async () => {
-  console.log(route.params.id);
-
   const res = await getOrderAPI(route.params.id);
-  console.log(res);
-
   payInfo.value = res.data.result;
   console.log(payInfo.value);
 
