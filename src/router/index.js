@@ -45,7 +45,7 @@ const router = createRouter({
           component: () => import("@/views/Member/index.vue"),
           children: [
             {
-              path: "/member/user",
+              path: "",
               component: () => import("@/views/Member/components/Userinfo.vue"),
             },
             {
