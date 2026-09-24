@@ -1,23 +1,158 @@
-<script setup></script>
+<script setup>
+import { useRouter, useRoute } from "vue-router";
+
+const router = useRouter();
+const route = useRoute();
+
+const menuList = [
+  {
+    label: "我的账户",
+    children: [
+      {
+        label: "个人中心",
+        path: "/member",
+      },
+      {
+        label: "消息通知",
+        path: "/member/message",
+      },
+      {
+        label: "个人信息",
+        path: "/member/profile",
+      },
+      {
+        label: "安全设置",
+        path: "/member/security",
+      },
+      {
+        label: "地址管理",
+        path: "/member/address",
+      },
+      {
+        label: "我的积分",
+        path: "/member/integral",
+      },
+      {
+        label: "我的足迹",
+        path: "/member/footprint",
+      },
+      {
+        label: "邀请有礼",
+        path: "/member/invite",
+      },
+      {
+        label: "幸运抽奖",
+        path: "/member/lottery",
+      },
+    ],
+  },
+
+  {
+    label: "交易管理",
+    children: [
+      {
+        label: "我的订单",
+        path: "/member/order",
+      },
+      {
+        label: "优惠券",
+        path: "/member/coupon",
+      },
+      {
+        label: "礼品卡",
+        path: "/member/card",
+      },
+      {
+        label: "评价晒单",
+        path: "/member/evaluate",
+      },
+      {
+        label: "售后服务",
+        path: "/member/after-sale",
+      },
+    ],
+  },
+
+  {
+    label: "我的收藏",
+    children: [
+      {
+        label: "收藏的商品",
+        path: "/member/collect",
+      },
+      {
+        label: "收藏的店铺",
+        path: "/member/shop-collect",
+      },
+      {
+        label: "浏览记录",
+        path: "/member/history",
+      },
+    ],
+  },
+
+  {
+    label: "帮助中心",
+    children: [
+      {
+        label: "购物指南",
+        path: "/member/shopping-guide",
+      },
+      {
+        label: "支付方式",
+        path: "/member/payment",
+      },
+      {
+        label: "配送方式",
+        path: "/member/delivery",
+      },
+      {
+        label: "售后服务",
+        path: "/member/service",
+      },
+      {
+        label: "联系客服",
+        path: "/member/contact",
+      },
+    ],
+  },
+];
+
+const handleClick = (data) => {
+  if (!data.path) return;
+
+  router.push(data.path);
+};
+</script>
 
 <template>
   <div class="container">
     <div class="xtx-member-aside">
-      <div class="user-manage">
-        <h4>我的账户</h4>
-        <div class="links">
-          <RouterLink to="/member">个人中心</RouterLink>
-        </div>
-        <h4>交易管理</h4>
-        <div class="links">
-          <RouterLink to="/member/order">我的订单</RouterLink>
-        </div>
-      </div>
+      <el-tree
+        :data="menuList"
+        :props="{
+          label: 'label',
+          children: 'children',
+        }"
+        :expand-on-click-node="true"
+        @node-click="handleClick"
+      >
+        <template #default="{ data }">
+          <span
+            class="tree-node"
+            :class="{
+              title: !data.path,
+              active: data.path === route.path,
+            }"
+          >
+            {{ data.label }}
+          </span>
+        </template>
+      </el-tree>
     </div>
+
     <div class="article">
-      <!-- 三级路由的挂载点 -->
-      <RouterView></RouterView>
-      <!-- <RouterView /> -->
+      <RouterView />
     </div>
   </div>
 </template>
@@ -25,42 +160,61 @@
 <style scoped lang="scss">
 .container {
   display: flex;
+  height: 600px;
   padding-top: 20px;
 
   .xtx-member-aside {
     width: 220px;
     margin-right: 20px;
     border-radius: 2px;
-    background-color: #fff;
+    background: #fff;
+    overflow-y: auto;
 
-    .user-manage {
-      background-color: #fff;
+    .el-tree {
+      padding: 10px 0;
+      background: #fff;
 
-      h4 {
-        font-size: 18px;
-        font-weight: 400;
-        padding: 20px 52px 5px;
-        border-top: 1px solid #f6f6f6;
+      // 每一行节点
+      :deep(.el-tree-node__content) {
+        height: auto;
+
+        padding-left: 0;
+
+        &:hover {
+          background: none;
+        }
       }
 
-      .links {
-        padding: 0 52px 10px;
+      // 小三角
+      :deep(.el-tree-node__expand-icon) {
+        color: #999;
+
+        margin-left: 20px;
+        margin-top: 15px;
+        margin-right: 0;
       }
 
-      a {
+      // 子节点缩进
+      :deep(.el-tree-node__children) {
+        padding-left: 30px;
+      }
+
+      .tree-node {
         display: block;
-        line-height: 1;
-        padding: 15px 0;
-        font-size: 14px;
-        color: #666;
+
         position: relative;
+
+        padding: 15px 0;
+
+        font-size: 14px;
+
+        color: #666;
 
         &:hover {
           color: $xtxColor;
         }
 
-        &.active,
-        &.router-link-exact-active {
+        &.active {
           color: $xtxColor;
 
           &:before {
@@ -70,22 +224,42 @@
 
         &:before {
           content: "";
+
           display: none;
+
           width: 6px;
+
           height: 6px;
+
           border-radius: 50%;
+
           position: absolute;
-          top: 19px;
+
+          top: 20px;
+
           left: -16px;
-          background-color: $xtxColor;
+
+          background: $xtxColor;
         }
+      }
+
+      // 一级标题
+      .title {
+        font-size: 18px;
+
+        font-weight: 400;
+
+        color: #333;
+
+        padding: 20px 0 5px;
       }
     }
   }
 
   .article {
     width: 1000px;
-    background-color: #fff;
+
+    background: #fff;
   }
 }
 </style>

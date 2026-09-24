@@ -1,13 +1,17 @@
 <script setup>
-import { getCheckoutAPI, createOrderAPI } from "@/api/checkout";
+import { getCheckoutAPI, createOrderAPI, addAddressAPI } from "@/api/checkout";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cartStore";
+import { ElMessage } from "element-plus";
+import { regionData } from "element-china-area-data";
 
 const checkInfo = ref(); // 订单对象
 const curAddress = ref(); // 地址对象
 const router = useRouter();
 const cartStore = useCartStore();
+console.log(regionData);
+// 获取收货地址
 const getCheckout = async () => {
   const res = await getCheckoutAPI();
   checkInfo.value = res.data.result;
@@ -16,7 +20,101 @@ const getCheckout = async () => {
 };
 getCheckout();
 
+// 添加收货地址
+const formModel = ref({
+  address: {
+    sheng: "",
+    shi: "",
+    qu: "",
+  },
+  name: "",
+  phone: "",
+  detailAddress: "",
+  boolearn: false,
+});
+const formRef = ref();
+const rules = {
+  name: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value || !value.trim()) {
+          callback(new Error("姓名不能为空"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur",
+    },
+  ],
+
+  phone: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value || !value.trim()) {
+          callback(new Error("手机号不能为空"));
+        } else if (!/^1[3-9]\d{9}$/.test(value)) {
+          callback(new Error("请输入11位数字（第二位不能是1和2）"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur",
+    },
+  ],
+
+  "address.sheng": [
+    {
+      required: true,
+      message: "请选择省份",
+      trigger: "change",
+    },
+  ],
+
+  "address.shi": [
+    {
+      required: true,
+      message: "请选择城市",
+      trigger: "change",
+    },
+  ],
+
+  "address.qu": [
+    {
+      required: true,
+      message: "请选择区县",
+      trigger: "change",
+    },
+  ],
+
+  detailAddress: [
+    {
+      validator: (rule, value, callback) => {
+        if (!value || !value.trim()) {
+          callback(new Error("详细地址不能为空"));
+        } else {
+          callback();
+        }
+      },
+      trigger: "blur",
+    },
+  ],
+};
+const addAddress = () => {
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+      const res = await addAddressAPI({
+        receiver: formModel.value.name,
+        contact: formModel.value.phone,
+      });
+      console.log(res);
+    } else {
+      ElMessage.info("数据异常，请重新填写地址");
+    }
+  });
+};
+
 const showDialog = ref(false);
+const addFlag = ref(false);
 
 const activeAddress = ref({});
 const switchItem = (item) => {
@@ -31,7 +129,7 @@ const confirm = () => {
     showDialog.value = false;
   }
 };
-
+// 获取商品信息并跳转支付页面
 const createOrder = async () => {
   const res = await createOrderAPI({
     deliveryTimeType: 1,
@@ -50,6 +148,24 @@ const createOrder = async () => {
   console.log(res);
   router.push(`pay/${orderId}`);
   cartStore.getCartList();
+};
+
+// 选择省市区
+const shi = ref([]);
+const selectSheng = (num) => {
+  console.log(num);
+  shi.value = regionData.find((item) => {
+    return item.value === num;
+  }).children;
+  console.log(shi.value);
+};
+const qu = ref([]);
+const selectShi = (num) => {
+  console.log(num);
+  qu.value = shi.value?.find((item) => {
+    return item.value === num;
+  })?.children;
+  console.log(qu.value);
 };
 </script>
 
@@ -181,6 +297,68 @@ const createOrder = async () => {
     </template>
   </el-dialog>
   <!-- 添加地址 -->
+  <el-dialog v-model="addFlag" title="添加收货地址" width="60%">
+    <el-form ref="formRef" :model="formModel" :rules="rules">
+      <el-form-item label="请填写您的姓名：" prop="name">
+        <el-input v-model="formModel.name"></el-input>
+      </el-form-item>
+      <el-form-item label="请填写您手机号：" prop="phone">
+        <el-input
+          @input="formModel.phone = formModel.phone.replace(/\D/g, '')"
+          v-model="formModel.phone"
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="请填写您的地址：" prop="address.sheng">
+        <el-col :span="6">
+          <el-select placeholder="省" v-model="formModel.address.sheng" @change="selectSheng">
+            <el-option
+              v-for="item in regionData"
+              :key="item.id"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="6">
+          <el-select
+            placeholder="市"
+            v-model="formModel.address.shi"
+            @change="selectShi"
+            :disabled="!shi?.length"
+          >
+            <el-option
+              v-for="item in shi"
+              :key="item.id"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="10">
+          <el-select placeholder="区" v-model="formModel.address.qu" :disabled="!qu?.length">
+            <el-option
+              v-for="item in qu"
+              :key="item.id"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-col>
+      </el-form-item>
+      <el-form-item label="门牌号：" prop="detailAddress">
+        <el-input type="textarea" v-model="formModel.detailAddress"></el-input>
+      </el-form-item>
+      <el-form-item label="是否设为默认地址">
+        <el-switch v-model="formModel.boolearn"></el-switch>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer" style="display: flex; justify-content: center">
+        <el-button @click="addFlag = false">取消</el-button>
+        <el-button type="primary" @click="addAddress">确定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">

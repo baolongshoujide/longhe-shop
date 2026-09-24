@@ -7,3 +7,7 @@ export const getCheckoutAPI = () => {
 export const createOrderAPI = (data) => {
   return request.post("/member/order", data);
 };
+
+export const addAddressAPI = (data) => {
+  return request.post("/member/address", data);
+};

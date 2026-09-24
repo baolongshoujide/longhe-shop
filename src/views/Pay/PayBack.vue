@@ -2,8 +2,10 @@
 import { useRoute } from "vue-router";
 import { getOrderAPI } from "@/api/pay";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
 const route = useRoute();
+const router = useRouter();
 const orderInfo = ref();
 const getOrderInfo = async () => {
   const res = await getOrderAPI(route.query.orderId);
@@ -26,8 +28,10 @@ getOrderInfo();
           支付金额：<span>¥{{ orderInfo?.payMoney.toFixed(2) }}</span>
         </p>
         <div class="btn">
-          <el-button type="primary" style="margin-right: 20px">查看订单</el-button>
-          <el-button>进入首页</el-button>
+          <el-button type="primary" style="margin-right: 20px" @click="router.replace('/member')"
+            >查看订单</el-button
+          >
+          <el-button @click="router.replace('/')">进入首页</el-button>
         </div>
         <p class="alert">
           <span class="iconfont icon-tip"></span>

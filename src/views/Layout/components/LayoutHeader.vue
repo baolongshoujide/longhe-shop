@@ -1,8 +1,9 @@
 <script setup>
 import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
-
+const router = useRouter();
 const confirm = () => {
   userStore.delUser();
 };
@@ -14,7 +15,7 @@ const confirm = () => {
       <ul>
         <template v-if="userStore.user?.result?.token">
           <li>
-            <a href="javascript:;"
+            <a href="javascript:;" @click="router.push('/member')"
               ><i class="iconfont icon-user"></i>{{ userStore.user.result.account }}</a
             >
           </li>
@@ -30,7 +31,7 @@ const confirm = () => {
               </template>
             </el-popconfirm>
           </li>
-          <li><a href="javascript:;">我的订单</a></li>
+          <li><a href="javascript:;" @click="router.push('/member/order')">我的订单</a></li>
           <li><a href="javascript:;">会员中心</a></li>
         </template>
         <template v-else>

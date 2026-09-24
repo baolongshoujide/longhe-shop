@@ -8,9 +8,9 @@ const router = useRouter();
 <template>
   <div class="cart">
     <a class="curr" href="javascript:;">
-      <i class="iconfont icon-cart"></i><em>{{ cartStore.count }}</em>
+      <i class="iconfont icon-cart"></i><em v-if="cartStore.count">{{ cartStore.count }}</em>
     </a>
-    <div class="layer">
+    <div class="layer" v-if="cartStore.count">
       <div class="list">
         <div class="item" v-for="i in cartStore.cartList" :key="i">
           <RouterLink to="">
@@ -38,6 +38,9 @@ const router = useRouter();
           >去购物车结算</el-button
         >
       </div>
+    </div>
+    <div class="layer nothing" v-else>
+      <el-empty :image-size="70" description="购物车空空如也"> </el-empty>
     </div>
   </div>
 </template>
@@ -106,7 +109,14 @@ const router = useRouter();
       transform: scale(0.6, 1) rotate(45deg);
       box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.1);
     }
-
+    &.nothing {
+      width: 350px;
+      height: 200px;
+      padding: 0;
+      :deep(.el-empty) {
+        justify-content: center;
+      }
+    }
     .foot {
       position: absolute;
       left: 0;

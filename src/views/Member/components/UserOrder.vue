@@ -1,7 +1,6 @@
 <script setup>
 import { getUserOrder } from "@/api/order";
-import { ref } from "vue";
-
+import { ref, watch } from "vue";
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -50,6 +49,18 @@ const fomartPayState = (payState) => {
   };
   return stateMap[payState];
 };
+// 进行监听，如果倒计时小于等于0，并且未付款，将他改为已取消
+watch(
+  () => orderList.value.map((item) => item.countdown),
+  (newList) => {
+    if (!newList) return;
+    newList.forEach((item, index) => {
+      if (item <= 0 && orderList.value[index].orderState === 1) {
+        orderList.value[index].orderState = 6;
+      }
+    });
+  },
+);
 </script>
 
 <template>
