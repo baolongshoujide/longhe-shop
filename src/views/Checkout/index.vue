@@ -1,27 +1,61 @@
 <script setup>
-import { getCheckoutAPI, createOrderAPI, addAddressAPI } from "@/api/checkout";
-import { ref } from "vue";
+import {
+  getCheckoutAPI,
+  createOrderAPI,
+  addAddressAPI,
+  editAddressAPI,
+  delAddressAPI,
+} from "@/api/checkout";
+import { ref, nextTick, computed } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "@/stores/cartStore";
-import { ElMessage } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { regionData } from "element-china-area-data";
+import { Close, Edit } from "@element-plus/icons-vue";
 
 const checkInfo = ref(); // 订单对象
 const curAddress = ref(); // 地址对象
+const editingAddressId = ref(null);
+const isEditingAddress = computed(() => editingAddressId.value !== null);
 const router = useRouter();
 const cartStore = useCartStore();
-console.log(regionData);
-// 获取收货地址
+// 获取收货地址(拉取渲染数据)
 const getCheckout = async () => {
   const res = await getCheckoutAPI();
   checkInfo.value = res.data.result;
   curAddress.value = checkInfo.value.userAddresses.find((item) => item.isDefault === 0);
-  console.log(checkInfo.value);
+  console.log(res);
 };
 getCheckout();
+// 删除收货地址（那个叉号）
+const delAddress = async (id) => {
+  const res = await delAddressAPI({ id });
+  console.log(res);
+  getCheckout();
+};
+// 编辑收货地址
+const editAddress = (item) => {
+  editingAddressId.value = item.id;
+  addFlag.value = true;
 
-// 添加收货地址
-const formModel = ref({
+  formModel.value = {
+    address: {
+      sheng: item.provinceCode,
+      shi: item.cityCode,
+      qu: item.countyCode,
+    },
+    name: item.receiver,
+    phone: item.contact,
+    postalCode: item.postalCode,
+    detailAddress: item.address,
+    addressTags: item.addressTags,
+    boolearn: item.isDefault === 0,
+  };
+  setRegionList(item.provinceCode, item.cityCode);
+};
+
+// 设置表单为全空的值
+const defaultFormModel = () => ({
   address: {
     sheng: "",
     shi: "",
@@ -29,23 +63,20 @@ const formModel = ref({
   },
   name: "",
   phone: "",
+  postalCode: "",
   detailAddress: "",
+  addressTags: "",
   boolearn: false,
 });
+
+const formModel = ref(defaultFormModel());
 const formRef = ref();
+const validateRequiredText = (message) => (rule, value, callback) => {
+  if (!value?.trim()) callback(new Error(message));
+  else callback();
+};
 const rules = {
-  name: [
-    {
-      validator: (rule, value, callback) => {
-        if (!value || !value.trim()) {
-          callback(new Error("姓名不能为空"));
-        } else {
-          callback();
-        }
-      },
-      trigger: "blur",
-    },
-  ],
+  name: [{ validator: validateRequiredText("姓名不能为空"), trigger: "blur" }],
 
   phone: [
     {
@@ -86,27 +117,44 @@ const rules = {
     },
   ],
 
-  detailAddress: [
-    {
-      validator: (rule, value, callback) => {
-        if (!value || !value.trim()) {
-          callback(new Error("详细地址不能为空"));
-        } else {
-          callback();
-        }
-      },
-      trigger: "blur",
-    },
-  ],
+  detailAddress: [{ validator: validateRequiredText("详细地址不能为空"), trigger: "blur" }],
 };
+// 进行判断，如果为true，点了就没反应。防止短时间多次点击
+const submitLoading = ref(false);
+// 添加收货地址
 const addAddress = () => {
+  if (submitLoading.value) return;
+  // 进行判断校验是否全通过
   formRef.value.validate(async (valid) => {
     if (valid) {
-      const res = await addAddressAPI({
+      submitLoading.value = true;
+      const addressData = {
         receiver: formModel.value.name,
         contact: formModel.value.phone,
-      });
-      console.log(res);
+        provinceCode: formModel.value.address.sheng,
+        cityCode: formModel.value.address.shi,
+        countyCode: formModel.value.address.qu,
+        postalCode: formModel.value.postalCode,
+        address: formModel.value.detailAddress,
+        addressTags: formModel.value.addressTags,
+        isDefault: formModel.value.boolearn ? 0 : 1,
+        fullLocation: fullLocation.value,
+      };
+
+      try {
+        if (isEditingAddress.value) {
+          await editAddressAPI({ id: editingAddressId.value, ...addressData });
+        } else {
+          await addAddressAPI(addressData);
+        }
+
+        ElMessage.success(isEditingAddress.value ? "地址修改成功" : "地址添加成功");
+        addFlag.value = false;
+        await getCheckout();
+        resetAddressForm();
+      } finally {
+        submitLoading.value = false;
+      }
     } else {
       ElMessage.info("数据异常，请重新填写地址");
     }
@@ -116,11 +164,14 @@ const addAddress = () => {
 const showDialog = ref(false);
 const addFlag = ref(false);
 
+// 选择地址
+// 选择的地址高亮
 const activeAddress = ref({});
 const switchItem = (item) => {
   activeAddress.value = item;
+  console.log(item);
 };
-
+// 选择地址确定
 const confirm = () => {
   if (activeAddress.value.id) {
     curAddress.value = activeAddress.value;
@@ -151,22 +202,110 @@ const createOrder = async () => {
 };
 
 // 选择省市区
-const shi = ref([]);
+const shiList = ref([]);
+const quList = ref([]);
 const selectSheng = (num) => {
-  console.log(num);
-  shi.value = regionData.find((item) => {
-    return item.value === num;
-  }).children;
-  console.log(shi.value);
+  setRegionList(num);
+  formModel.value.address.shi = "";
+  formModel.value.address.qu = "";
 };
-const qu = ref([]);
+
 const selectShi = (num) => {
-  console.log(num);
-  qu.value = shi.value?.find((item) => {
-    return item.value === num;
-  })?.children;
-  console.log(qu.value);
+  setRegionList(formModel.value.address.sheng, num);
+  formModel.value.address.qu = "";
 };
+// 按地区编码获取省、市、区名称，供表单和已有地址共用。
+const getRegionFullLocation = (provinceCode, cityCode, countyCode) => {
+  const province = regionData.find((item) => item.value === provinceCode);
+  const city = province?.children.find((item) => item.value === cityCode);
+  const county = city?.children.find((item) => item.value === countyCode);
+
+  return `${province?.label || ""}${city?.label || ""}${county?.label || ""}`;
+};
+const getFullAddress = (item) => {
+  return getRegionFullLocation(item.provinceCode, item.cityCode, item.countyCode);
+};
+const fullLocation = computed(() =>
+  getRegionFullLocation(
+    formModel.value.address.sheng,
+    formModel.value.address.shi,
+    formModel.value.address.qu,
+  ),
+);
+// 打开添加地址清空表单数据内容
+const addButton = () => {
+  resetAddressForm();
+  addFlag.value = true;
+  nextTick(() => {
+    formRef.value?.clearValidate();
+  });
+};
+const resetAddressForm = () => {
+  editingAddressId.value = null;
+  formModel.value = defaultFormModel();
+  shiList.value = [];
+  quList.value = [];
+  showCustomInput.value = false;
+  customTag.value = "";
+  formRef.value?.clearValidate();
+};
+
+const defaultTags = ["家", "公司"];
+
+// 自定义标签输入框
+const customTags = ref([]);
+// 是否显示输入框
+const showCustomInput = ref(false);
+// 输入框内容
+const customTag = ref("");
+// 当前选中的标签
+const selectTag = (tag) => {
+  formModel.value.addressTags = tag;
+};
+
+// 添加自定义标签
+const confirmCustomTag = () => {
+  const tag = customTag.value.trim();
+  // 空内容不添加
+  if (!tag) return;
+  customTags.value.push(tag);
+  formModel.value.addressTags = tag;
+  customTag.value = "";
+  showCustomInput.value = false;
+};
+// 关闭adddialog前的操作
+const closeAddDialog = (done) => {
+  if (JSON.stringify(formModel.value) === JSON.stringify(defaultFormModel())) {
+    done();
+    return;
+  }
+  ElMessageBox.confirm("是否保存当前地址为草稿？", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+  })
+    .then(() => {
+      done();
+    })
+    .catch(() => {
+      formModel.value = defaultFormModel();
+      shiList.value = [];
+      quList.value = [];
+      done();
+    });
+};
+
+// 封装地区处理
+const setRegionList = (provinceCode, cityCode) => {
+  const province = regionData.find((item) => item.value === provinceCode);
+
+  shiList.value = province?.children || [];
+
+  const city = shiList.value.find((item) => item.value === cityCode);
+
+  quList.value = city?.children || [];
+};
+
+const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 </script>
 
 <template>
@@ -185,13 +324,13 @@ const selectShi = (num) => {
                 </li>
                 <li><span>联系方式：</span>{{ curAddress.contact }}</li>
                 <li>
-                  <span>收货地址：</span>{{ curAddress.fullLocation }} {{ curAddress.address }}
+                  <span>收货地址：</span>{{ getFullAddress(curAddress) }} {{ curAddress.address }}
                 </li>
               </ul>
             </div>
             <div class="action">
               <el-button size="large" @click="showDialog = true">切换地址</el-button>
-              <el-button size="large" @click="addFlag = true">添加地址</el-button>
+              <el-button size="large" @click="addButton">添加地址</el-button>
             </div>
           </div>
         </div>
@@ -271,7 +410,7 @@ const selectShi = (num) => {
     </div>
   </div>
   <!-- 切换地址 -->
-  <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
+  <el-dialog v-model="showDialog" title="切换收货地址" width="400" center>
     <div class="addressWrapper">
       <div
         class="text item"
@@ -285,8 +424,17 @@ const selectShi = (num) => {
             <span>收<i />货<i />人：</span>{{ item.receiver }}
           </li>
           <li><span>联系方式：</span>{{ item.contact }}</li>
-          <li><span>收货地址：</span>{{ item.fullLocation + item.address }}</li>
+          <li><span>收货地址：</span>{{ getFullAddress(item) + item.address }}</li>
         </ul>
+        <div class="address-action">
+          <el-icon class="delete" @click.stop="delAddress(item.id)">
+            <Close />
+          </el-icon>
+
+          <el-icon class="edit" @click.stop="editAddress(item)">
+            <Edit />
+          </el-icon>
+        </div>
       </div>
     </div>
     <template #footer>
@@ -297,7 +445,12 @@ const selectShi = (num) => {
     </template>
   </el-dialog>
   <!-- 添加地址 -->
-  <el-dialog v-model="addFlag" title="添加收货地址" width="60%">
+  <el-dialog
+    v-model="addFlag"
+    :title="isEditingAddress ? '编辑收货地址' : '添加收货地址'"
+    width="60%"
+    :before-close="closeAddDialog"
+  >
     <el-form ref="formRef" :model="formModel" :rules="rules">
       <el-form-item label="请填写您的姓名：" prop="name">
         <el-input v-model="formModel.name"></el-input>
@@ -324,10 +477,10 @@ const selectShi = (num) => {
             placeholder="市"
             v-model="formModel.address.shi"
             @change="selectShi"
-            :disabled="!shi?.length"
+            :disabled="!shiList?.length"
           >
             <el-option
-              v-for="item in shi"
+              v-for="item in shiList"
               :key="item.id"
               :label="item.label"
               :value="item.value"
@@ -335,9 +488,9 @@ const selectShi = (num) => {
           </el-select>
         </el-col>
         <el-col :span="10">
-          <el-select placeholder="区" v-model="formModel.address.qu" :disabled="!qu?.length">
+          <el-select placeholder="区" v-model="formModel.address.qu" :disabled="!quList.length">
             <el-option
-              v-for="item in qu"
+              v-for="item in quList"
               :key="item.id"
               :label="item.label"
               :value="item.value"
@@ -351,11 +504,27 @@ const selectShi = (num) => {
       <el-form-item label="是否设为默认地址">
         <el-switch v-model="formModel.boolearn"></el-switch>
       </el-form-item>
+      <el-form-item label="地址标签">
+        <el-button
+          v-for="item in addressTags"
+          :key="item"
+          :type="formModel.addressTags === item ? 'primary' : ''"
+          @click="selectTag(item)"
+          >{{ item }}</el-button
+        >
+        <el-button v-if="!showCustomInput" @click="showCustomInput = true">+其他</el-button>
+        <template v-else>
+          <el-input v-model="customTag" placeholder="请输入标签" style="width: 150px" />
+          <el-button type="primary" @click="confirmCustomTag">确定</el-button>
+        </template>
+      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer" style="display: flex; justify-content: center">
         <el-button @click="addFlag = false">取消</el-button>
-        <el-button type="primary" @click="addAddress">确定</el-button>
+        <el-button type="primary" :loading="submitLoading" @click="addAddress">
+          {{ isEditingAddress ? "保存修改" : "确定" }}
+        </el-button>
       </span>
     </template>
   </el-dialog>
@@ -383,6 +552,7 @@ const selectShi = (num) => {
   }
 }
 
+/* 收货地址 */
 .address {
   border: 1px solid #f5f5f5;
   display: flex;
@@ -447,6 +617,63 @@ const selectShi = (num) => {
   }
 }
 
+/* 地址弹窗 */
+.addressWrapper {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.text {
+  flex: 1;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+
+  &.item {
+    position: relative;
+    border: 1px solid #f5f5f5;
+    margin-bottom: 10px;
+    padding-right: 50px;
+    cursor: pointer;
+
+    &.active,
+    &:hover {
+      border-color: $xtxColor;
+      background: lighten($xtxColor, 50%);
+    }
+
+    > ul {
+      padding: 10px;
+      font-size: 14px;
+      line-height: 30px;
+    }
+
+    .address-action {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      .delete,
+      .edit {
+        font-size: 26px;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .delete:hover,
+      .edit:hover {
+        color: #333;
+      }
+    }
+  }
+}
+
+/* 商品 */
 .goods {
   width: 100%;
   border-collapse: collapse;
@@ -483,6 +710,7 @@ const selectShi = (num) => {
     th {
       text-align: center;
       padding: 20px;
+
       border-bottom: 1px solid #f5f5f5;
 
       &:first-child {
@@ -496,14 +724,22 @@ const selectShi = (num) => {
   }
 }
 
+/* 按钮 */
 .my-btn {
   width: 228px;
+
   height: 50px;
+
   border: 1px solid #e4e4e4;
+
   text-align: center;
+
   line-height: 48px;
+
   margin-right: 25px;
-  color: #666666;
+
+  color: #666;
+
   display: inline-block;
 
   &.active,
@@ -512,10 +748,13 @@ const selectShi = (num) => {
   }
 }
 
+/* 金额 */
 .total {
   dl {
     display: flex;
+
     justify-content: flex-end;
+
     line-height: 50px;
 
     dt {
@@ -527,50 +766,26 @@ const selectShi = (num) => {
 
     dd {
       width: 240px;
+
       text-align: right;
+
       padding-right: 70px;
 
       &.price {
         font-size: 20px;
+
         color: $priceColor;
       }
     }
   }
 }
 
+/* 提交 */
 .submit {
   text-align: right;
+
   padding: 60px;
+
   border-top: 1px solid #f5f5f5;
-}
-
-.addressWrapper {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.text {
-  flex: 1;
-  min-height: 90px;
-  display: flex;
-  align-items: center;
-
-  &.item {
-    border: 1px solid #f5f5f5;
-    margin-bottom: 10px;
-    cursor: pointer;
-
-    &.active,
-    &:hover {
-      border-color: $xtxColor;
-      background: lighten($xtxColor, 50%);
-    }
-
-    > ul {
-      padding: 10px;
-      font-size: 14px;
-      line-height: 30px;
-    }
-  }
 }
 </style>

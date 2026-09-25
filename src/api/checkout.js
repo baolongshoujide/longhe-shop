@@ -11,3 +11,11 @@ export const createOrderAPI = (data) => {
 export const addAddressAPI = (data) => {
   return request.post("/member/address", data);
 };
+
+export const delAddressAPI = ({ id }) => {
+  return request.delete(`/member/address/${id}`);
+};
+
+export const editAddressAPI = ({ id, ...data }) => {
+  return request.put(`/member/address/${id}`, data);
+};

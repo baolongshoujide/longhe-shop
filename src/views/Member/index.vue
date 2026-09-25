@@ -41,7 +41,7 @@ const menuList = [
         path: "/member/invite",
       },
       {
-        label: "幸运抽奖",
+        label: "会员中心",
         path: "/member/lottery",
       },
     ],
