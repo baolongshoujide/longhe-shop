@@ -72,7 +72,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
 }
 
 .pay-info {
-  background: #fff;
+  background: var(--color-card-bg);
   display: flex;
   align-items: center;
   height: 240px;
@@ -94,7 +94,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
       }
 
       &:last-child {
-        color: #999;
+        color: var(--color-text-muted);
         font-size: 16px;
       }
     }
@@ -104,7 +104,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
     span {
       &:first-child {
         font-size: 16px;
-        color: #999;
+        color: var(--color-text-muted);
       }
 
       &:last-child {
@@ -117,7 +117,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
 
 .pay-type {
   margin-top: 20px;
-  background-color: #fff;
+  background-color: var(--color-card-bg);
   padding-bottom: 70px;
 
   p {
@@ -127,7 +127,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
     font-size: 16px;
 
     &.head {
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--color-border);
     }
   }
 
@@ -138,7 +138,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
     text-align: center;
     line-height: 48px;
     margin-left: 30px;
-    color: #666666;
+    color: var(--color-text-muted);
     display: inline-block;
 
     &.active,

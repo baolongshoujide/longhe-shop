@@ -53,7 +53,7 @@ const { category } = useCategory();
 .top-category {
   h3 {
     font-size: 28px;
-    color: #666;
+    color: var(--color-text-muted);
     font-weight: normal;
     text-align: center;
     line-height: 100px;
@@ -61,7 +61,7 @@ const { category } = useCategory();
 
   .sub-list {
     margin-top: 20px;
-    background-color: #fff;
+    background-color: var(--color-card-bg);
 
     ul {
       display: flex;
@@ -95,7 +95,7 @@ const { category } = useCategory();
   }
 
   .ref-goods {
-    background-color: #fff;
+    background-color: var(--color-card-bg);
     margin-top: 20px;
     position: relative;
 
@@ -108,7 +108,7 @@ const { category } = useCategory();
 
       .tag {
         text-align: center;
-        color: #999;
+        color: var(--color-text-muted);
         font-size: 20px;
         position: relative;
         top: -20px;

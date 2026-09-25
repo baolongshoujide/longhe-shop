@@ -3,13 +3,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --color-primary: #00b8ff;
+  --color-primary-hover: #33ccff;
+  --color-secondary: #ff3344;
+  --color-bg-dark: #080c18;
+  --color-card-bg: rgba(20, 30, 50, 0.75);
+  --color-nav-bg: rgba(8, 12, 24, 0.85);
+  --color-text-main: #e8f2ff;
+  --color-text-muted: #96a8c2;
+  --color-border: rgba(0, 184, 255, 0.25);
+}
+
 html {
   height: 100%;
   font-size: 14px;
 }
 body {
   height: 100%;
-  color: #333;
+  background: #080c18;
+  color: #e8f2ff;
   min-width: 1240px;
   font:
     1em/1.4 "Microsoft Yahei",
@@ -35,7 +48,7 @@ dd {
 }
 a {
   text-decoration: none;
-  color: #333;
+  color: var(--color-text-main);
   outline: none;
 }
 i {
@@ -49,22 +62,21 @@ input[type="checkbox"] {
   outline: none;
   border: none;
   -webkit-appearance: none;
-  &::placeholder {
-    color: #ccc;
-  }
+  &::placeholder { color: var(--color-text-muted); }
 }
 img {
   max-width: 100%;
   max-height: 100%;
   vertical-align: middle;
-  background: #ebebeb url("@/assets/images/200.png") no-repeat center / contain;
+  background: transparent;
 }
 ul {
   list-style: none;
 }
 
 #app {
-  background: #f5f5f5;
+  min-height: 100vh;
+  background: #080c18;
   user-select: none;
 }
 
@@ -73,6 +85,19 @@ ul {
   margin: 0 auto;
   position: relative;
 }
+
+.el-button--primary {
+  background: linear-gradient(135deg, #0088cc, #00b8ff);
+  border: 0;
+  color: #fff;
+}
+
+.el-button--primary:hover {
+  background: linear-gradient(135deg, #00b8ff, #33ccff);
+  box-shadow: 0 0 12px rgba(0, 184, 255, 0.45);
+}
+
+.price { color: #ff3344 !important; }
 .ellipsis {
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -46,16 +46,17 @@ const confirm = () => {
 
 <style scoped lang="scss">
 .app-topnav {
-  background: #333;
+  background: #06111f;
+  border-bottom: 1px solid #163552;
   ul {
     display: flex;
-    height: 53px;
+    height: 48px;
     justify-content: flex-end;
     align-items: center;
     li {
       a {
         padding: 0 15px;
-        color: #cdcdcd;
+        color: #a9bfd3;
         line-height: 1;
         display: inline-block;
 
@@ -71,7 +72,7 @@ const confirm = () => {
 
       ~ li {
         a {
-          border-left: 2px solid #666;
+        border-left: 1px solid #29445f;
         }
       }
     }

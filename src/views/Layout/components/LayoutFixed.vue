@@ -39,8 +39,9 @@ const { y } = useScroll(window);
   left: 0;
   top: 0;
   z-index: 999;
-  background-color: #fff;
-  border-bottom: 1px solid #e4e4e4;
+  background-color: rgba(8, 12, 24, 0.94);
+  border-bottom: 1px solid rgba(0, 184, 255, 0.25);
+  box-shadow: 0 5px 20px rgba(0, 8, 20, 0.3);
   // 此处为关键样式!!!
   // 状态一：往上平移自身高度 + 完全透明
   transform: translateY(-100%);
@@ -61,8 +62,7 @@ const { y } = useScroll(window);
   .logo {
     width: 200px;
     height: 80px;
-    background: url("@/assets/images/logo.png") no-repeat right 2px;
-    background-size: 160px auto;
+    background: url("@/assets/images/rex-logo-transparent.png") no-repeat right center / 190px auto;
   }
 
   .right {
@@ -73,6 +73,7 @@ const { y } = useScroll(window);
     border-left: 2px solid $xtxColor;
 
     a {
+      color: #d6e7f7;
       width: 38px;
       margin-right: 40px;
       font-size: 16px;

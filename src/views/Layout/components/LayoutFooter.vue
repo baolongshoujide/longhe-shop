@@ -56,7 +56,7 @@
             <a href="javascript:;">搜索推荐</a>
             <a href="javascript:;">友情链接</a>
           </p>
-          <p>CopyRight © 小兔鲜儿</p>
+          <p>CopyRight © 龙核商城</p>
         </div>
       </div>
     </div>
@@ -66,11 +66,12 @@
 <style scoped lang="scss">
 .app_footer {
   overflow: hidden;
-  background-color: #f5f5f5;
+  background-color: $themeBg;
   padding-top: 20px;
 
   .contact {
-    background: #fff;
+    background: $themeSurface;
+    border-top: 1px solid $themeBorder;
 
     .container {
       padding: 60px 0 40px 25px;
@@ -81,8 +82,8 @@
       height: 190px;
       text-align: center;
       padding: 0 72px;
-      border-right: 1px solid #f2f2f2;
-      color: #999;
+      border-right: 1px solid #1b3349;
+      color: $themeMuted;
 
       &:first-child {
         padding-left: 0;
@@ -105,12 +106,12 @@
       width: 92px;
       height: 92px;
       padding-top: 10px;
-      border: 1px solid #ededed;
+      border: 1px solid #29435a;
 
       .iconfont {
         font-size: 36px;
         display: block;
-        color: #666;
+        color: #91abc3;
       }
 
       &:hover {
@@ -128,7 +129,7 @@
       width: 92px;
       height: 92px;
       padding: 7px;
-      border: 1px solid #ededed;
+      border: 1px solid #29435a;
     }
 
     .download {
@@ -156,7 +157,7 @@
     .hotline {
       padding-top: 20px;
       font-size: 22px;
-      color: #666;
+      color: #d6e4ec;
       width: auto;
       height: auto;
       border: none;
@@ -164,13 +165,13 @@
       small {
         display: block;
         font-size: 15px;
-        color: #999;
+        color: #9aabb7;
       }
     }
   }
 
   .extra {
-    background-color: #333;
+    background-color: #07111f;
   }
 
   .slogan {
@@ -205,7 +206,7 @@
     height: 170px;
     padding-top: 40px;
     text-align: center;
-    color: #999;
+    color: var(--color-text-muted);
     font-size: 15px;
 
     p {
@@ -214,7 +215,7 @@
     }
 
     a {
-      color: #999;
+      color: var(--color-text-muted);
       line-height: 1;
       padding: 0 10px;
       border-right: 1px solid #999;

@@ -106,7 +106,7 @@ watch([elementX, elementY, isOutside], () => {
   .middle {
     width: 400px;
     height: 400px;
-    background: #f5f5f5;
+    background: rgba(20, 30, 50, 0.9);
   }
 
   .large {

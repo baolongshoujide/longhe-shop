@@ -21,11 +21,17 @@ defineProps({
   width: 220px;
   padding: 20px 30px;
   text-align: center;
+  color: $themeText;
+  background: rgba(20, 30, 50, 0.75);
+  border: 1px solid rgba(0, 184, 255, 0.25);
+  border-radius: 6px;
   transition: all 0.5s;
 
   &:hover {
     transform: translate3d(0, -3px, 0);
-    box-shadow: 0 3px 8px rgb(0 0 0 / 20%);
+    box-shadow: 0 8px 25px rgba(0, 144, 255, 0.14);
+    border-color: #00b8ff;
+    box-shadow: 0 0 12px rgba(0, 184, 255, 0.4);
   }
 
   img {
@@ -42,7 +48,7 @@ defineProps({
   }
 
   .desc {
-    color: #999;
+    color: $themeMuted;
     height: 29px;
   }
 

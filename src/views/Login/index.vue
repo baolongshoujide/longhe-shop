@@ -51,7 +51,7 @@ const submit = () => {
     <header class="login-header">
       <div class="container m-top-20">
         <h1 class="logo">
-          <RouterLink to="/">小兔鲜</RouterLink>
+          <RouterLink to="/">龙核商城</RouterLink>
         </h1>
         <RouterLink class="entry" to="/">
           进入网站首页
@@ -104,7 +104,7 @@ const submit = () => {
           <a href="javascript:;">搜索推荐</a>
           <a href="javascript:;">友情链接</a>
         </p>
-        <p>CopyRight &copy; 小兔鲜儿</p>
+        <p>CopyRight &copy; 龙核商城</p>
       </div>
     </footer>
   </div>
@@ -112,8 +112,8 @@ const submit = () => {
 
 <style scoped lang="scss">
 .login-header {
-  background: #fff;
-  border-bottom: 1px solid #e4e4e4;
+  background: var(--color-card-bg);
+  border-bottom: 1px solid var(--color-border);
 
   .container {
     display: flex;
@@ -129,7 +129,7 @@ const submit = () => {
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url("@/assets/images/logo.png") no-repeat center 18px / contain;
+      background: url("@/assets/images/rex-logo-transparent.png") no-repeat center / contain;
     }
   }
 
@@ -139,7 +139,7 @@ const submit = () => {
     font-weight: normal;
     margin-bottom: 38px;
     margin-left: 20px;
-    color: #666;
+    color: var(--color-text-muted);
   }
 
   .entry {
@@ -156,13 +156,15 @@ const submit = () => {
 }
 
 .login-section {
-  background: url("@/assets/images/login-bg.png") no-repeat center / cover;
+  background:
+    linear-gradient(100deg, rgba(8, 12, 24, 0.5), rgba(8, 12, 24, 0.84)),
+    url("@/assets/images/login-bg.png") no-repeat center / cover;
   height: 488px;
   position: relative;
 
   .wrapper {
     width: 380px;
-    background: #fff;
+    background: var(--color-card-bg);
     position: absolute;
     left: 50%;
     top: 54px;
@@ -173,7 +175,7 @@ const submit = () => {
       font-size: 14px;
       height: 55px;
       margin-bottom: 20px;
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--color-border);
       display: flex;
       padding: 0 40px;
       text-align: right;
@@ -193,17 +195,17 @@ const submit = () => {
 
 .login-footer {
   padding: 30px 0 50px;
-  background: #fff;
+  background: var(--color-card-bg);
 
   p {
     text-align: center;
-    color: #999;
+    color: var(--color-text-muted);
     padding-top: 20px;
 
     a {
       line-height: 1;
       padding: 0 10px;
-      color: #999;
+      color: var(--color-text-muted);
       display: inline-block;
 
       ~ a {
@@ -274,8 +276,8 @@ const submit = () => {
           text-align: center;
           line-height: 34px;
           font-size: 14px;
-          background: #f5f5f5;
-          color: #666;
+          background: rgba(20, 30, 50, 0.9);
+          color: var(--color-text-muted);
           width: 90px;
           height: 34px;
           cursor: pointer;
@@ -324,7 +326,7 @@ const submit = () => {
 
     .url {
       a {
-        color: #999;
+        color: var(--color-text-muted);
         margin-left: 10px;
       }
     }

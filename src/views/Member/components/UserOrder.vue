@@ -179,12 +179,12 @@ watch(
 
 .order-item {
   margin-bottom: 20px;
-  border: 1px solid #f5f5f5;
+  border: 1px solid var(--color-border);
 
   .head {
     height: 50px;
     line-height: 50px;
-    background: #f5f5f5;
+    background: rgba(20, 30, 50, 0.9);
     padding: 0 20px;
     overflow: hidden;
 
@@ -210,7 +210,7 @@ watch(
     .del {
       margin-right: 0;
       float: right;
-      color: #999;
+      color: var(--color-text-muted);
     }
   }
 
@@ -219,7 +219,7 @@ watch(
     align-items: stretch;
 
     .column {
-      border-left: 1px solid #f5f5f5;
+      border-left: 1px solid var(--color-border);
       text-align: center;
       padding: 20px;
 
@@ -238,7 +238,7 @@ watch(
 
         ul {
           li {
-            border-bottom: 1px solid #f5f5f5;
+            border-bottom: 1px solid var(--color-border);
             padding: 10px;
             display: flex;
 
@@ -249,7 +249,7 @@ watch(
             .image {
               width: 70px;
               height: 70px;
-              border: 1px solid #f5f5f5;
+              border: 1px solid var(--color-border);
             }
 
             .info {
@@ -265,7 +265,7 @@ watch(
                 }
 
                 &.attr {
-                  color: #999;
+                  color: var(--color-text-muted);
                   font-size: 12px;
 
                   span {

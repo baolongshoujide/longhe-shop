@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1120" viewBox="0 0 1440 1120">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101b2b"/><stop offset="1" stop-color="#1b2e43"/></linearGradient>
+    <linearGradient id="armor" x1="0" y1="0" x2=".85" y2="1"><stop stop-color="#f6bd4b"/><stop offset=".5" stop-color="#e2862c"/><stop offset="1" stop-color="#a74328"/></linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#263b51"/><stop offset="1" stop-color="#192b40"/></linearGradient>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0V36" fill="none" stroke="#7d9ab2" stroke-opacity=".08"/></pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#070d15" flood-opacity=".25"/></filter>
+  </defs>
+  <rect width="1440" height="1120" fill="#e9edf0"/>
+  <rect width="1440" height="40" fill="#111d2c"/>
+  <text x="110" y="26" fill="#b5c3d0" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="13">暴龙补给站 · 为每一次进化做好准备</text>
+  <text x="1160" y="26" fill="#b5c3d0" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="13">安全配送　｜　机甲售后</text>
+  <rect y="40" width="1440" height="104" fill="#17283b"/>
+  <g transform="translate(112 61)">
+    <path d="M24 3 45 12 52 31 42 51 19 56 4 43 1 22Z" fill="url(#armor)" stroke="#ffd982" stroke-width="2"/>
+    <path d="m13 33 14-8 13 5-4 11-17 4Z" fill="#17283b"/><circle cx="33" cy="25" r="3" fill="#69e3eb"/>
+    <path d="m7 16 8-11 8 10M36 8l10 4" fill="none" stroke="#ffe5a2" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="178" y="91" fill="#fff3d5" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="26" font-weight="700">暴龙补给站</text>
+  <text x="179" y="115" fill="#8fa5ba" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="12" letter-spacing="2">TYRANT SUPPLY · MECHA GEAR</text>
+  <g fill="#cfdae4" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="15">
+    <text x="430" y="99">首页</text><text x="510" y="99">装甲装备</text><text x="620" y="99">能量核心</text><text x="730" y="99">恐龙伙伴</text>
+  </g>
+  <rect x="916" y="70" width="286" height="42" rx="21" fill="#0f1d2d" stroke="#40556a"/>
+  <text x="940" y="97" fill="#8195a8" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="13">搜索装备 / 型号</text>
+  <rect x="1220" y="69" width="114" height="44" rx="22" fill="#ef9d36"/>
+  <text x="1245" y="97" fill="#17283b" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="14" font-weight="700">🛒　购物车</text>
+  <rect x="0" y="144" width="1440" height="225" fill="url(#bg)"/>
+  <rect x="0" y="144" width="1440" height="225" fill="url(#grid)"/>
+  <path d="M0 338H1440" stroke="#f0a139" stroke-opacity=".28" stroke-width="2"/>
+  <text x="112" y="206" fill="#f2a23b" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="12" letter-spacing="4">MISSION  /  CHECKOUT</text>
+  <text x="110" y="258" fill="#fff5df" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="34" font-weight="700">整备完成，准备出发</text>
+  <text x="112" y="293" fill="#a9bdcc" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="15">确认补给清单与投送坐标，暴龙小队即将启程。</text>
+  <rect x="112" y="316" width="152" height="3" rx="2" fill="#51d4d7"/>
+  <g transform="translate(1024 158)">
+    <path d="M47 133c-22-10-27-40-14-63l24-31c18-19 50-27 81-18l33-18 20 20-13 20c25 15 34 43 22 66l-22 24-31 2-8 27h-29l-1-23-27 3-9 21H48l10-31Z" fill="url(#armor)" stroke="#ffd98a" stroke-width="4" stroke-linejoin="round"/>
+    <path d="m115 47 28-18 19 13-10 20-33 4Z" fill="#23384d" stroke="#91e7e6" stroke-width="3"/>
+    <circle cx="145" cy="46" r="5" fill="#74f4fa"/>
+    <path d="m184 58 35-7 20 12-33 10M61 78 37 67 23 80l22 18M110 123l-6 35M157 125l5 33" fill="none" stroke="#26394c" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m77 47 8-22 13 20m11-23 12 17m13-18 11 15" fill="none" stroke="#f9d47b" stroke-width="7" stroke-linecap="round"/>
+    <path d="M81 85h34m-22 15h35" stroke="#ffc45a" stroke-width="4" stroke-linecap="round"/>
+    <path d="m209 114 24 5-19 15-24-3Z" fill="#53d5dc"/>
+  </g>
+  <text x="1270" y="344" fill="#7191a7" font-family="Arial,sans-serif" font-size="11" letter-spacing="2">MECHA REX / 07</text>
+  <g font-family="Arial,'Microsoft YaHei',sans-serif">
+    <text x="112" y="414" fill="#26394a" font-size="25" font-weight="700">结算清单</text>
+    <text x="112" y="440" fill="#7d8d9b" font-size="13">CHECKOUT · 01 / 03</text>
+    <rect x="112" y="462" width="1216" height="174" rx="12" fill="#fff" filter="url(#shadow)"/>
+    <rect x="112" y="462" width="7" height="174" rx="4" fill="#e79432"/>
+    <text x="145" y="501" fill="#273849" font-size="17" font-weight="700">投送地址</text>
+    <rect x="1184" y="480" width="112" height="34" rx="17" fill="#fff5e7" stroke="#f0c27c"/>
+    <text x="1210" y="502" fill="#a75a24" font-size="13">切换地址</text>
+    <text x="147" y="547" fill="#354a5c" font-size="15" font-weight="700">林队长</text>
+    <text x="229" y="547" fill="#667989" font-size="14">138 0000 0099</text>
+    <rect x="365" y="529" width="52" height="23" rx="11" fill="#e8f7f6"/>
+    <text x="378" y="545" fill="#26898d" font-size="11">基地</text>
+    <text x="147" y="580" fill="#718292" font-size="14">浙江省 杭州市 西湖区　机甲大道 07 号整备中心</text>
+    <text x="147" y="611" fill="#9aa7b0" font-size="12">已验证的安全投送坐标</text>
+    <rect x="112" y="657" width="1216" height="207" rx="12" fill="#fff" filter="url(#shadow)"/>
+    <rect x="112" y="657" width="7" height="207" rx="4" fill="#42bfc7"/>
+    <text x="145" y="698" fill="#273849" font-size="17" font-weight="700">装备补给</text>
+    <text x="1138" y="698" fill="#8998a3" font-size="12">单价</text><text x="1214" y="698" fill="#8998a3" font-size="12">数量</text>
+    <path d="M145 719H1295" stroke="#e8edf0"/>
+    <rect x="146" y="738" width="90" height="90" rx="10" fill="#1a2c40"/>
+    <path d="M167 798c-7-5-9-17-3-25l13-15c10-9 22-9 31-5l11-6 8 8-6 9c8 8 6 18 0 24l-10 7-16-1-4 13h-11l-1-12h-9l-3 8h-11Z" fill="url(#armor)" stroke="#ffe19b" stroke-width="2"/>
+    <circle cx="208" cy="770" r="3" fill="#75f0f4"/>
+    <text x="258" y="766" fill="#32485b" font-size="15" font-weight="700">R-07 迅猛型机甲暴龙</text>
+    <text x="258" y="792" fill="#8a9aa7" font-size="12">钛合金装甲 · 蓝晶能量核心</text>
+    <text x="1130" y="780" fill="#34495a" font-size="15">¥ 1,299</text>
+    <text x="1220" y="780" fill="#596d7d" font-size="14">× 1</text>
+    <rect x="112" y="884" width="1216" height="150" rx="12" fill="#fff" filter="url(#shadow)"/>
+    <text x="145" y="923" fill="#273849" font-size="17" font-weight="700">投送方案</text>
+    <rect x="145" y="945" width="250" height="54" rx="8" fill="#fff8ed" stroke="#e7a448" stroke-width="2"/>
+    <circle cx="169" cy="972" r="7" fill="#e99c38"/><text x="188" y="978" fill="#475a69" font-size="13">标准投送　周一至周日</text>
+    <rect x="410" y="945" width="250" height="54" rx="8" fill="#f7f9fa" stroke="#dce3e7"/>
+    <circle cx="434" cy="972" r="7" fill="#fff" stroke="#aebbc4" stroke-width="2"/><text x="453" y="978" fill="#687b89" font-size="13">工作日优先</text>
+    <rect x="675" y="945" width="250" height="54" rx="8" fill="#f7f9fa" stroke="#dce3e7"/>
+    <circle cx="699" cy="972" r="7" fill="#fff" stroke="#aebbc4" stroke-width="2"/><text x="718" y="978" fill="#687b89" font-size="13">周末投送</text>
+    <text x="1060" y="927" fill="#82919d" font-size="13">装备合计</text>
+    <text x="1182" y="929" fill="#dc6534" font-size="22" font-weight="700">¥ 1,299.00</text>
+    <rect x="1134" y="956" width="160" height="52" rx="26" fill="#e99b37"/>
+    <text x="1172" y="989" fill="#17283b" font-size="15" font-weight="700">确认并下单</text>
+  </g>
+  <text x="112" y="1080" fill="#8495a2" font-family="Arial,'Microsoft YaHei',sans-serif" font-size="12">视觉方向：深色机甲界面 + 熔岩橙行动色 + 能量青状态色；商品数据与现有接口无关，仅作主题参考。</text>
+</svg>

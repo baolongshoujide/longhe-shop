@@ -181,12 +181,12 @@ export default {
 
     dt {
       width: 50px;
-      color: #999;
+      color: var(--color-text-muted);
     }
 
     dd {
       flex: 1;
-      color: #666;
+      color: var(--color-text-muted);
 
       > img {
         width: 50px;

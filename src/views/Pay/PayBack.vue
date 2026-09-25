@@ -35,7 +35,7 @@ getOrderInfo();
         </div>
         <p class="alert">
           <span class="iconfont icon-tip"></span>
-          温馨提示：小兔鲜儿不会以订单异常、系统升级为由要求您点击任何网址链接进行退款操作，保护资产、谨慎操作。
+          温馨提示：龙核商城不会以订单异常、系统升级为由要求您点击任何网址链接进行退款操作，保护资产、谨慎操作。
         </p>
       </div>
     </div>
@@ -45,7 +45,7 @@ getOrderInfo();
 <style scoped lang="scss">
 .pay-result {
   padding: 100px 0;
-  background: #fff;
+  background: var(--color-card-bg);
   text-align: center;
   margin-top: 20px;
 
@@ -66,7 +66,7 @@ getOrderInfo();
   }
 
   .tip {
-    color: #999;
+    color: var(--color-text-muted);
   }
 
   p {
@@ -80,7 +80,7 @@ getOrderInfo();
 
   .alert {
     font-size: 12px;
-    color: #999;
+    color: var(--color-text-muted);
     margin-top: 50px;
   }
 }

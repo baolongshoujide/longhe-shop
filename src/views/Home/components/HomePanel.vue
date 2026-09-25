@@ -26,7 +26,7 @@ defineProps({
 
 <style scoped lang="scss">
 .home-panel {
-  background-color: #fff;
+  background-color: transparent;
 
   .head {
     padding: 40px 0;
@@ -36,6 +36,7 @@ defineProps({
     h3 {
       flex: 1;
       font-size: 32px;
+      color: $themeText;
       font-weight: normal;
       margin-left: 6px;
       height: 35px;
@@ -43,7 +44,7 @@ defineProps({
 
       small {
         font-size: 16px;
-        color: #999;
+        color: $themeMuted;
         margin-left: 20px;
       }
     }

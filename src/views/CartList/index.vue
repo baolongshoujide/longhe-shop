@@ -104,8 +104,8 @@ const change = (i) => {
   margin-top: 20px;
 
   .cart {
-    background: #fff;
-    color: #666;
+    background: var(--color-card-bg);
+    color: var(--color-text-muted);
 
     table {
       border-spacing: 0;
@@ -115,12 +115,12 @@ const change = (i) => {
       th,
       td {
         padding: 10px;
-        border-bottom: 1px solid #f5f5f5;
+        border-bottom: 1px solid var(--color-border);
 
         &:first-child {
           text-align: left;
           padding-left: 30px;
-          color: #999;
+          color: var(--color-text-muted);
         }
       }
 
@@ -135,10 +135,10 @@ const change = (i) => {
   .cart-none {
     text-align: center;
     padding: 120px 0;
-    background: #fff;
+    background: var(--color-card-bg);
 
     p {
-      color: #999;
+      color: var(--color-text-muted);
       padding: 20px 0;
     }
   }
@@ -184,14 +184,14 @@ const change = (i) => {
 
       .attr {
         font-size: 14px;
-        color: #999;
+        color: var(--color-text-muted);
       }
     }
   }
 
   .action {
     display: flex;
-    background: #fff;
+    background: var(--color-card-bg);
     margin-top: 20px;
     height: 80px;
     align-items: center;
@@ -200,7 +200,7 @@ const change = (i) => {
     padding: 0 30px;
 
     .xtx-checkbox {
-      color: #999;
+      color: var(--color-text-muted);
     }
 
     .batch {
@@ -217,7 +217,7 @@ const change = (i) => {
   }
 
   .tit {
-    color: #666;
+    color: var(--color-text-muted);
     font-size: 16px;
     font-weight: normal;
     line-height: 50px;

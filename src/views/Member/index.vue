@@ -167,12 +167,12 @@ const handleClick = (data) => {
     width: 220px;
     margin-right: 20px;
     border-radius: 2px;
-    background: #fff;
+    background: var(--color-card-bg);
     overflow-y: auto;
 
     .el-tree {
       padding: 10px 0;
-      background: #fff;
+      background: var(--color-card-bg);
 
       // 每一行节点
       :deep(.el-tree-node__content) {
@@ -187,7 +187,7 @@ const handleClick = (data) => {
 
       // 小三角
       :deep(.el-tree-node__expand-icon) {
-        color: #999;
+        color: var(--color-text-muted);
 
         margin-left: 20px;
         margin-top: 15px;
@@ -208,7 +208,7 @@ const handleClick = (data) => {
 
         font-size: 14px;
 
-        color: #666;
+        color: var(--color-text-muted);
 
         &:hover {
           color: $xtxColor;
@@ -249,7 +249,7 @@ const handleClick = (data) => {
 
         font-weight: 400;
 
-        color: #333;
+        color: var(--color-text-main);
 
         padding: 20px 0 5px;
       }
@@ -259,7 +259,7 @@ const handleClick = (data) => {
   .article {
     width: 1000px;
 
-    background: #fff;
+    background: var(--color-card-bg);
   }
 }
 </style>

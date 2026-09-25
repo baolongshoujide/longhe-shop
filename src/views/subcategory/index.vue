@@ -72,12 +72,12 @@ const load = async () => {
 <style lang="scss" scoped>
 .bread-container {
   padding: 25px 0;
-  color: #666;
+  color: var(--color-text-muted);
 }
 
 .sub-container {
   padding: 20px 10px;
-  background-color: #fff;
+  background-color: var(--color-card-bg);
 
   .body {
     display: flex;
@@ -106,7 +106,7 @@ const load = async () => {
     }
 
     .desc {
-      color: #999;
+      color: var(--color-text-muted);
       height: 29px;
     }
 

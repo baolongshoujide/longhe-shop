@@ -167,7 +167,7 @@ const addCart = async () => {
 .xtx-goods-page {
   .goods-info {
     min-height: 600px;
-    background: #fff;
+    background: var(--color-card-bg);
     display: flex;
 
     .media {
@@ -199,12 +199,12 @@ const addCart = async () => {
 
   .goods-tabs {
     min-height: 600px;
-    background: #fff;
+    background: var(--color-card-bg);
   }
 
   .goods-warn {
     min-height: 600px;
-    background: #fff;
+    background: var(--color-card-bg);
     margin-top: 20px;
   }
 
@@ -214,7 +214,7 @@ const addCart = async () => {
 
     .label {
       width: 60px;
-      color: #999;
+      color: var(--color-text-muted);
       padding-left: 10px;
     }
   }
@@ -224,7 +224,7 @@ const addCart = async () => {
   }
 
   .g-desc {
-    color: #999;
+    color: var(--color-text-muted);
     margin-top: 10px;
   }
 
@@ -244,7 +244,7 @@ const addCart = async () => {
       }
 
       &:last-child {
-        color: #999;
+        color: var(--color-text-muted);
         text-decoration: line-through;
         font-size: 16px;
       }
@@ -252,7 +252,7 @@ const addCart = async () => {
   }
 
   .g-service {
-    background: #f5f5f5;
+    background: rgba(20, 30, 50, 0.9);
     width: 500px;
     padding: 20px 10px 0 10px;
     margin-top: 10px;
@@ -264,11 +264,11 @@ const addCart = async () => {
 
       dt {
         width: 50px;
-        color: #999;
+        color: var(--color-text-muted);
       }
 
       dd {
-        color: #666;
+        color: var(--color-text-muted);
 
         &:last-child {
           span {
@@ -312,7 +312,7 @@ const addCart = async () => {
       p {
         &:first-child,
         .no {
-          color: #999;
+          color: var(--color-text-muted);
         }
 
         &:nth-child(2) {
@@ -321,7 +321,7 @@ const addCart = async () => {
         }
 
         &:last-child {
-          color: #666;
+          color: var(--color-text-muted);
           margin-top: 10px;
 
           i {
@@ -336,7 +336,7 @@ const addCart = async () => {
           }
         }
         &.no-brand {
-          color: #999;
+          color: var(--color-text-muted);
         }
       }
     }
@@ -345,13 +345,13 @@ const addCart = async () => {
 
 .goods-tabs {
   min-height: 600px;
-  background: #fff;
+  background: var(--color-card-bg);
 
   nav {
     height: 70px;
     line-height: 70px;
     display: flex;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid var(--color-border);
 
     a {
       padding: 0 40px;
@@ -382,12 +382,12 @@ const addCart = async () => {
 
       .dt {
         width: 100px;
-        color: #999;
+        color: var(--color-text-muted);
       }
 
       .dd {
         flex: 1;
-        color: #666;
+        color: var(--color-text-muted);
       }
     }
   }

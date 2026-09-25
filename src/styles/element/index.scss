@@ -1,20 +1,21 @@
-/* 小兔鲜项目：覆盖element-plus主题变量 */
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      "base": #27ba9b,
-    ),
-    "success": (
-      "base": #1dc779,
-    ),
-    "warning": (
-      "base": #ffb302,
-    ),
-    "danger": (
-      "base": #e26237,
-    ),
-    "error": (
-      "base": #cf4444,
-    ),
-  )
-);
+/* 龙核商城主题：覆盖 Element Plus 的 CSS 变量 */
+:root {
+  --el-color-primary: #00b8ff;
+  --el-color-primary-light-3: #33ccff;
+  --el-color-primary-light-5: #66d6ff;
+  --el-color-primary-light-7: #99e3ff;
+  --el-color-primary-light-8: #b3eaff;
+  --el-color-primary-light-9: #ccf1ff;
+  --el-color-primary-dark-2: #0088cc;
+  --el-color-success: #28c9a7;
+  --el-color-warning: #ffb547;
+  --el-color-danger: #ff3344;
+  --el-color-error: #ff3344;
+  --el-bg-color: #141e32;
+  --el-bg-color-overlay: #101a2c;
+  --el-text-color-primary: #e8f2ff;
+  --el-text-color-regular: #c5d3e5;
+  --el-text-color-secondary: #96a8c2;
+  --el-border-color: rgba(0, 184, 255, 0.25);
+  --el-fill-color-blank: rgba(20, 30, 50, 0.92);
+}

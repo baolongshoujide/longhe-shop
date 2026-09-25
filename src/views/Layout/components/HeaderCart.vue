@@ -94,7 +94,7 @@ const router = useRouter();
     top: 50px;
     right: 0;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    background: #fff;
+    background: var(--color-card-bg);
     border-radius: 4px;
     padding-top: 10px;
 
@@ -105,7 +105,7 @@ const router = useRouter();
       top: -10px;
       width: 20px;
       height: 20px;
-      background: #fff;
+      background: var(--color-card-bg);
       transform: scale(0.6, 1) rotate(45deg);
       box-shadow: -3px -3px 5px rgba(0, 0, 0, 0.1);
     }
@@ -131,7 +131,7 @@ const router = useRouter();
 
       .total {
         padding-left: 10px;
-        color: #999;
+        color: var(--color-text-muted);
 
         p {
           &:last-child {
@@ -168,7 +168,7 @@ const router = useRouter();
     }
 
     .item {
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--color-border);
       padding: 10px 0;
       position: relative;
 
@@ -177,7 +177,7 @@ const router = useRouter();
         bottom: 38px;
         right: 0;
         opacity: 0;
-        color: #666;
+        color: var(--color-text-muted);
         transition: all 0.5s;
       }
 
@@ -206,7 +206,7 @@ const router = useRouter();
           }
 
           .attr {
-            color: #999;
+            color: var(--color-text-muted);
             padding-top: 5px;
           }
         }
@@ -222,7 +222,7 @@ const router = useRouter();
           }
 
           .count {
-            color: #999;
+            color: var(--color-text-muted);
             margin-top: 5px;
             font-size: 16px;
           }

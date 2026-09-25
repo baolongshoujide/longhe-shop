@@ -112,18 +112,18 @@ console.log(userStore.user);
 .like-container {
   margin-top: 20px;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: var(--color-card-bg);
 }
 
 .home-panel {
-  background-color: #fff;
+  background-color: var(--color-card-bg);
   padding: 0 20px;
   margin-top: 20px;
   height: 400px;
 
   .header {
     height: 66px;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid var(--color-border);
     padding: 18px 0;
     display: flex;
     justify-content: space-between;

@@ -378,7 +378,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
         <div class="box-body">
           <a class="my-btn active" href="javascript:;">在线支付</a>
           <a class="my-btn" href="javascript:;">货到付款</a>
-          <span style="color: #999">货到付款需付5元手续费</span>
+          <span style="color: var(--color-text-muted)">货到付款需付5元手续费</span>
         </div>
         <!-- 金额明细 -->
         <h3 class="box-title">金额明细</h3>
@@ -535,7 +535,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
   margin-top: 20px;
 
   .wrapper {
-    background: #fff;
+    background: var(--color-card-bg);
     padding: 0 20px;
 
     .box-title {
@@ -543,7 +543,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
       font-weight: normal;
       padding-left: 10px;
       line-height: 70px;
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--color-border);
     }
 
     .box-body {
@@ -554,7 +554,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
 /* 收货地址 */
 .address {
-  border: 1px solid #f5f5f5;
+  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
 
@@ -566,7 +566,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
     .none {
       line-height: 90px;
-      color: #999;
+      color: var(--color-text-muted);
       text-align: center;
       width: 100%;
     }
@@ -579,7 +579,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
         line-height: 30px;
 
         span {
-          color: #999;
+          color: var(--color-text-muted);
           margin-right: 5px;
 
           > i {
@@ -596,7 +596,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
       text-align: center;
       height: 90px;
       line-height: 90px;
-      border-right: 1px solid #f5f5f5;
+      border-right: 1px solid var(--color-border);
     }
   }
 
@@ -631,7 +631,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
   &.item {
     position: relative;
-    border: 1px solid #f5f5f5;
+    border: 1px solid var(--color-border);
     margin-bottom: 10px;
     padding-right: 50px;
     cursor: pointer;
@@ -662,12 +662,12 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
       .edit {
         font-size: 26px;
         cursor: pointer;
-        color: #999;
+        color: var(--color-text-muted);
       }
 
       .delete:hover,
       .edit:hover {
-        color: #333;
+        color: var(--color-text-main);
       }
     }
   }
@@ -694,7 +694,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
       p {
         &:last-child {
-          color: #999;
+          color: var(--color-text-muted);
         }
       }
     }
@@ -702,7 +702,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
   tr {
     th {
-      background: #f5f5f5;
+      background: rgba(20, 30, 50, 0.9);
       font-weight: normal;
     }
 
@@ -711,14 +711,14 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
       text-align: center;
       padding: 20px;
 
-      border-bottom: 1px solid #f5f5f5;
+      border-bottom: 1px solid var(--color-border);
 
       &:first-child {
-        border-left: 1px solid #f5f5f5;
+        border-left: 1px solid var(--color-border);
       }
 
       &:last-child {
-        border-right: 1px solid #f5f5f5;
+        border-right: 1px solid var(--color-border);
       }
     }
   }
@@ -738,7 +738,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
   margin-right: 25px;
 
-  color: #666;
+  color: var(--color-text-muted);
 
   display: inline-block;
 
@@ -786,6 +786,6 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
   padding: 60px;
 
-  border-top: 1px solid #f5f5f5;
+  border-top: 1px solid var(--color-border);
 }
 </style>

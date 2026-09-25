@@ -36,7 +36,7 @@ getGoods();
 
 <style scoped lang="scss">
 .home-product {
-  background: #fff;
+  background: transparent;
   margin-top: 20px;
   .sub {
     margin-bottom: 2px;
@@ -118,6 +118,7 @@ getGoods();
         &:nth-child(4n) {
           margin-right: 0;
         }
+
       }
     }
   }

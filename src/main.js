@@ -5,8 +5,9 @@ import App from "./App.vue";
 import router from "./router";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
-import "@/styles/common.scss";
 import "element-plus/dist/index.css";
+import "@/styles/common.scss";
+import "@/styles/element/index.scss";
 
 import { lazyPlugin } from "@/directives/index.js";
 import { componentPlugin } from "./components/imdex.js";

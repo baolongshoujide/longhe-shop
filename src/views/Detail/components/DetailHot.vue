@@ -54,7 +54,7 @@ getHotList();
     display: block;
     padding: 20px 30px;
     text-align: center;
-    background: #fff;
+    background: var(--color-card-bg);
 
     img {
       width: 160px;
@@ -70,7 +70,7 @@ getHotList();
     }
 
     .desc {
-      color: #999;
+      color: var(--color-text-muted);
       height: 29px;
     }
 

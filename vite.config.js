@@ -32,9 +32,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        // 自动导入主题文件 + 全局变量文件，顺序不能颠倒
+        // 全局 SCSS 变量
         additionalData: `
-          @use "@/styles/element/index.scss" as *;
           @use "@/styles/var.scss" as *;
         `,
       },
