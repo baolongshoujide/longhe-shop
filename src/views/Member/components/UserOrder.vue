@@ -1,6 +1,7 @@
 <script setup>
 import { getUserOrder } from "@/api/order";
 import { ref, watch } from "vue";
+import DataLoading from "@/components/DataLoading.vue";
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -13,6 +14,7 @@ const tabTypes = [
 ];
 // 订单列表
 const orderList = ref([]);
+const loading = ref(true);
 const total = ref(0);
 const params = ref({
   orderState: 0,
@@ -20,11 +22,12 @@ const params = ref({
   pageSize: 2,
 });
 const getOrderList = async () => {
-  const res = await getUserOrder(params.value);
-  console.log(res);
-  orderList.value = res.data.result.items;
-  console.log(orderList.value);
-  total.value = res.data.result.counts;
+  loading.value = true;
+  try {
+    const res = await getUserOrder(params.value);
+    orderList.value = res.data.result.items;
+    total.value = res.data.result.counts;
+  } finally { loading.value = false; }
 };
 getOrderList();
 
@@ -70,7 +73,8 @@ watch(
       <el-tab-pane v-for="item in tabTypes" :key="item.name" :label="item.label" />
 
       <div class="main-container">
-        <div class="holder-container" v-if="orderList.length === 0">
+        <div class="order-loading" v-if="loading"><DataLoading label="正在载入订单" /></div>
+        <div class="holder-container" v-else-if="orderList.length === 0">
           <el-empty description="暂无订单数据" />
         </div>
         <div v-else>
@@ -166,6 +170,7 @@ watch(
   }
 
   .main-container {
+    position: relative;
     min-height: 500px;
 
     .holder-container {

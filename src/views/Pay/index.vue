@@ -3,17 +3,19 @@ import { getOrderAPI } from "@/api/pay";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useCountDown } from "@/composables/useCountDown.js";
+import DataLoading from "@/components/DataLoading.vue";
 
 const payInfo = ref({});
+const loading = ref(true);
 const route = useRoute();
 const { dayjsTime, start } = useCountDown();
 const getOrder = async () => {
-  const res = await getOrderAPI(route.params.id);
-  payInfo.value = res.data.result;
+  try {
+    const res = await getOrderAPI(route.params.id);
+    payInfo.value = res.data.result;
+    start(res.data.result.countdown);
+  } finally { loading.value = false; }
   console.log(payInfo.value);
-
-  //   初始化倒计时秒数
-  start(res.data.result.countdown);
 };
 onMounted(() => {
   getOrder();
@@ -30,6 +32,8 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
 <template>
   <div class="xtx-pay-page">
     <div class="container">
+      <div class="pay-loading" v-if="loading"><DataLoading label="正在载入订单" /></div>
+      <template v-else>
       <!-- 付款信息 -->
       <div class="pay-info">
         <span class="icon iconfont icon-queren2"></span>
@@ -45,6 +49,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
           <span>¥{{ payInfo.payMoney?.toFixed(2) }}</span>
         </div>
       </div>
+      </template>
       <!-- 付款方式 -->
       <div class="pay-type">
         <p class="head">选择以下支付方式付款</p>
@@ -69,6 +74,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
 <style scoped lang="scss">
 .xtx-pay-page {
   margin-top: 20px;
+  .pay-loading { position: relative; height: 500px; }
 }
 
 .pay-info {

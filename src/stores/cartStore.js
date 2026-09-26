@@ -11,10 +11,14 @@ export const useCartStore = defineStore(
     const useStore = useUserStore();
     const isLogin = computed(() => useStore.user?.result?.token);
     const cartList = ref([]);
+  const loading = ref(false);
 
     const getCartList = async () => {
-      const res = await getCartListAPI();
-      cartList.value = res.data.result;
+      loading.value = true;
+      try {
+        const res = await getCartListAPI();
+        cartList.value = res.data.result;
+      } finally { loading.value = false; }
       console.log(cartList.value);
     };
     const addCart = async (goods) => {
@@ -95,6 +99,7 @@ export const useCartStore = defineStore(
     });
     return {
       cartList,
+    loading,
       addCart,
       delCart,
       count,

@@ -3,18 +3,23 @@ import { ref } from "vue";
 import HomePanel from "./HomePanel.vue";
 import { getGoodsAPI } from "@/api/home.js";
 import GoodsItem from "./GoodsItem.vue";
+import DataLoading from "@/components/DataLoading.vue";
 
 const goodsList = ref([]);
+const loading = ref(true);
 
 const getGoods = async () => {
-  const res = await getGoodsAPI();
-  goodsList.value = res.data.result;
+  try {
+    const res = await getGoodsAPI();
+    goodsList.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getGoods();
 </script>
 
 <template>
   <div class="home-product">
+    <div class="product-loading" v-if="loading"><DataLoading label="正在载入商品分类" /></div>
     <HomePanel :title="cate.name" v-for="cate in goodsList" :key="cate.id">
       <div class="box">
         <RouterLink class="cover" to="/">
@@ -38,6 +43,7 @@ getGoods();
 .home-product {
   background: transparent;
   margin-top: 20px;
+  .product-loading { position: relative; height: 260px; }
   .sub {
     margin-bottom: 2px;
 

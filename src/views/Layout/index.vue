@@ -5,17 +5,35 @@ import LayoutNav from "./components/LayoutNav.vue";
 import LayoutFixed from "./components/LayoutFixed.vue";
 import { useCategoryStore } from "@/stores/categoryStore.js";
 import { useAllGoodsListStore } from "@/stores/AllGoodsList.js";
+import DataLoading from "@/components/DataLoading.vue";
+import { useRoute } from "vue-router";
 
 const AllGoodsListStore = useAllGoodsListStore();
 AllGoodsListStore.getAllGoodsList();
 
 const categoryStore = useCategoryStore();
 categoryStore.getCategory();
+const route = useRoute();
 </script>
 <template>
   <LayoutFixed></LayoutFixed>
   <LayoutHeader></LayoutHeader>
   <LayoutNav></LayoutNav>
-  <router-view></router-view>
-  <LayoutFooter></LayoutFooter>
+  <div class="layout-content">
+    <router-view></router-view>
+    <LayoutFooter></LayoutFooter>
+    <DataLoading :active="!route.path.startsWith('/category/')" global label="正在载入商城内容" />
+  </div>
 </template>
+
+<style scoped>
+.layout-content {
+  position: relative;
+  min-height: calc(100vh - 180px);
+}
+
+.layout-content > :deep(.data-loading) {
+  z-index: 2000;
+  min-height: calc(100vh - 180px);
+}
+</style>

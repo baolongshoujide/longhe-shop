@@ -4,10 +4,14 @@ import { useRoute } from "vue-router";
 
 export const useCategory = () => {
   const category = ref({});
+  const loading = ref(true);
   const route = useRoute();
   const getCategory = async () => {
-    const res = await getCategoryAPI(route.params.id);
-    category.value = res.data.result;
+    loading.value = true;
+    try {
+      const res = await getCategoryAPI(route.params.id);
+      category.value = res.data.result;
+    } finally { loading.value = false; }
   };
 
   watch(
@@ -22,5 +26,6 @@ export const useCategory = () => {
 
   return {
     category,
+    loading,
   };
 };

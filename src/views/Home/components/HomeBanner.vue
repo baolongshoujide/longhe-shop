@@ -1,18 +1,25 @@
 <script setup>
 import { getBannerAPI } from "@/api/home";
 import { ref } from "vue";
+import DataLoading from "@/components/DataLoading.vue";
 
 const bannerList = ref([]);
+const loading = ref(true);
 
 const getBanner = async () => {
-  const res = await getBannerAPI();
-  bannerList.value = res.data.result;
+  try {
+    const res = await getBannerAPI();
+    bannerList.value = res.data.result;
+  } finally {
+    loading.value = false;
+  }
 };
 getBanner();
 </script>
 
 <template>
   <div class="home-banner">
+    <DataLoading v-if="loading" label="正在载入商城推荐" />
     <el-carousel height="500px">
       <el-carousel-item v-for="item in bannerList" :key="item">
         <img v-img-lazy="item.imgUrl" alt="" />
@@ -33,6 +40,7 @@ getBanner();
   border-radius: 4px;
   box-shadow: 0 0 24px rgba(0, 136, 204, 0.2);
   overflow: hidden;
+  position: absolute;
 
   &::before {
     content: "";

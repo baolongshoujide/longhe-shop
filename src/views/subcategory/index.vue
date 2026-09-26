@@ -3,17 +3,22 @@ import { useRoute } from "vue-router";
 import { getCategoryFilterAPI, getSubCategoryAPI } from "@/api/category";
 import { ref } from "vue";
 import GoodsItem from "../Home/components/GoodsItem.vue";
+import DataLoading from "@/components/DataLoading.vue";
 // 返回一级导航
 const route = useRoute();
 const category = ref([]);
+const categoryLoading = ref(true);
 const getCategory = async () => {
-  const res = await getCategoryFilterAPI(route.params.id);
-  category.value = res.data.result;
+  try {
+    const res = await getCategoryFilterAPI(route.params.id);
+    category.value = res.data.result;
+  } finally { categoryLoading.value = false; }
 };
 getCategory();
 
 // 筛选功能
 const goodList = ref([]);
+const goodsLoading = ref(true);
 const reqData = ref({
   categoryId: route.params.id,
   page: 1,
@@ -21,8 +26,11 @@ const reqData = ref({
   sortField: "publishTime",
 });
 const getGoodList = async () => {
-  const res = await getSubCategoryAPI(reqData.value);
-  goodList.value = res.data.result.items;
+  goodsLoading.value = true;
+  try {
+    const res = await getSubCategoryAPI(reqData.value);
+    goodList.value = res.data.result.items;
+  } finally { goodsLoading.value = false; }
 };
 getGoodList();
 const tabChange = () => {
@@ -47,6 +55,7 @@ const load = async () => {
   <div class="container">
     <!-- 面包屑 -->
     <div class="bread-container">
+      <DataLoading v-if="categoryLoading" label="正在载入分类" />
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
         <el-breadcrumb-item :to="{ path: `/category/${category.parentId}` }"
@@ -61,7 +70,8 @@ const load = async () => {
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+      <div class="body results" v-infinite-scroll="load" :infinite-scroll-disabled="disabled">
+        <DataLoading v-if="goodsLoading" label="正在载入商品" />
         <!-- 商品列表-->
         <GoodsItem v-for="item in goodList" :good="item" :key="item.id"></GoodsItem>
       </div>
@@ -71,6 +81,8 @@ const load = async () => {
 
 <style lang="scss" scoped>
 .bread-container {
+  position: relative;
+  min-height: 66px;
   padding: 25px 0;
   color: var(--color-text-muted);
 }
@@ -80,6 +92,8 @@ const load = async () => {
   background-color: var(--color-card-bg);
 
   .body {
+    position: relative;
+    min-height: 360px;
     display: flex;
     flex-wrap: wrap;
     padding: 0 10px;

@@ -1,6 +1,7 @@
 <script setup>
 import { useCategoryStore } from "@/stores/categoryStore.js";
 import HeaderCart from "./HeaderCart.vue";
+import DataLoading from "@/components/DataLoading.vue";
 const categoryStore = useCategoryStore();
 </script>
 
@@ -10,19 +11,22 @@ const categoryStore = useCategoryStore();
       <h1 class="logo">
         <RouterLink to="/">龙核商城</RouterLink>
       </h1>
-      <ul class="app-header-nav">
-        <li>
-          <RouterLink to="/">首页</RouterLink>
-        </li>
-        <li class="home" v-for="item in categoryStore.cateList" :key="item.id">
-          <RouterLink active-class="active" :to="`/category/${item.id}`">{{
-            item.name
-          }}</RouterLink>
-        </li>
-      </ul>
+      <div class="nav-container">
+        <DataLoading v-if="categoryStore.loading" label="正在载入导航" />
+        <ul class="app-header-nav">
+          <li>
+            <RouterLink to="/">首页</RouterLink>
+          </li>
+          <li class="home" v-for="item in categoryStore.cateList" :key="item.id">
+            <RouterLink active-class="active" :to="`/category/${item.id}`">{{
+              item.name
+            }}</RouterLink>
+          </li>
+        </ul>
+      </div>
       <div class="search">
         <i class="iconfont icon-search"></i>
-        <input type="text" placeholder="搜一搜" />
+        <input type="text" placeholder="功能未开启" disabled />
       </div>
       <!-- 头部购物车 -->
       <HeaderCart></HeaderCart>
@@ -34,9 +38,13 @@ const categoryStore = useCategoryStore();
 .app-header {
   position: relative;
   background:
-    linear-gradient(90deg, transparent 0 18%, rgba(0, 184, 255, 0.08) 18.1%, transparent 18.3% 100%),
-    repeating-linear-gradient(0deg, transparent 0 25px, rgba(0, 184, 255, 0.045) 26px),
-    #0a192b;
+    linear-gradient(
+      90deg,
+      transparent 0 18%,
+      rgba(0, 184, 255, 0.08) 18.1%,
+      transparent 18.3% 100%
+    ),
+    repeating-linear-gradient(0deg, transparent 0 25px, rgba(0, 184, 255, 0.045) 26px), #0a192b;
   border-bottom: 1px solid rgba(0, 184, 255, 0.25);
   box-shadow: 0 5px 24px rgba(0, 132, 220, 0.12);
 
@@ -91,6 +99,13 @@ const categoryStore = useCategoryStore();
     }
   }
 
+  .nav-container {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    min-height: 38px;
+  }
+
   .search {
     width: 190px;
     height: 38px;
@@ -99,7 +114,9 @@ const categoryStore = useCategoryStore();
     border: 1px solid #00b8ff;
     border-radius: 9px;
     background: linear-gradient(110deg, rgba(20, 30, 50, 0.9), rgba(0, 80, 130, 0.62));
-    box-shadow: 0 0 16px rgba(0, 184, 255, 0.3), inset 0 0 10px rgba(0, 125, 255, 0.12);
+    box-shadow:
+      0 0 16px rgba(0, 184, 255, 0.3),
+      inset 0 0 10px rgba(0, 125, 255, 0.12);
     line-height: 36px;
 
     .icon-search {
@@ -114,7 +131,9 @@ const categoryStore = useCategoryStore();
       color: #e3f1ff;
       background: transparent;
 
-      &::placeholder { color: #8db9d6; }
+      &::placeholder {
+        color: #8db9d6;
+      }
     }
   }
 

@@ -3,13 +3,16 @@ import { useUserStore } from "@/stores/userStore";
 import { getLikeListAPI } from "@/api/user";
 import { ref } from "vue";
 import GoodsItem from "@/views/Home/components/GoodsItem.vue";
+import DataLoading from "@/components/DataLoading.vue";
 
 const userStore = useUserStore();
 const likeList = ref();
+const loading = ref(true);
 const getLikeList = async () => {
-  const res = await getLikeListAPI({ limit: 4 });
-  console.log(res);
-  likeList.value = res.data.result;
+  try {
+    const res = await getLikeListAPI({ limit: 4 });
+    likeList.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getLikeList();
 console.log(userStore.user);
@@ -45,6 +48,7 @@ console.log(userStore.user);
         <h4 data-v-bcb266e0="">猜你喜欢</h4>
       </div>
       <div class="goods-list">
+        <DataLoading v-if="loading" label="正在载入推荐商品" />
         <GoodsItem v-for="good in likeList" :key="good.id" :good="good" />
       </div>
     </div>
@@ -136,6 +140,10 @@ console.log(userStore.user);
   }
 
   .goods-list {
+    position: relative;
+    min-height: 300px;
+    position: relative;
+    min-height: 300px;
     display: flex;
     justify-content: space-around;
   }

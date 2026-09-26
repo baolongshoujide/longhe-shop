@@ -3,13 +3,17 @@ import { useRoute } from "vue-router";
 import { getOrderAPI } from "@/api/pay";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import DataLoading from "@/components/DataLoading.vue";
 
 const route = useRoute();
 const router = useRouter();
 const orderInfo = ref();
+const loading = ref(true);
 const getOrderInfo = async () => {
-  const res = await getOrderAPI(route.query.orderId);
-  orderInfo.value = res.data.result;
+  try {
+    const res = await getOrderAPI(route.query.orderId);
+    orderInfo.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getOrderInfo();
 </script>
@@ -17,8 +21,9 @@ getOrderInfo();
 <template>
   <div class="xtx-pay-page">
     <div class="container">
+      <div class="result-loading" v-if="loading"><DataLoading label="正在确认支付结果" /></div>
       <!-- 支付结果 -->
-      <div class="pay-result">
+      <div class="pay-result" v-else>
         <span class="iconfont icon-queren2 green" v-if="route.query.payResult === 'true'"></span>
         <span class="iconfont icon-shanchu red" v-else></span>
         <p class="tit">支付{{ route.query.payResult === "true" ? "成功" : "失败" }}</p>
@@ -84,4 +89,5 @@ getOrderInfo();
     margin-top: 50px;
   }
 }
+.result-loading { position: relative; height: 500px; margin-top: 20px; }
 </style>

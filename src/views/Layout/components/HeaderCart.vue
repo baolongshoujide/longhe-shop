@@ -1,6 +1,7 @@
 <script setup>
 import { useCartStore } from "@/stores/cartStore";
 import { useRouter } from "vue-router";
+import emptyCartDragon from "@/assets/images/empty-cart-dragon.svg";
 const cartStore = useCartStore();
 const router = useRouter();
 </script>
@@ -40,7 +41,15 @@ const router = useRouter();
       </div>
     </div>
     <div class="layer nothing" v-else>
-      <el-empty :image-size="70" description="购物车空空如也"> </el-empty>
+      <el-empty :image-size="120" description="">
+        <template #image>
+          <img class="empty-cart-dragon" :src="emptyCartDragon" alt="机械幼龙" />
+        </template>
+        <template #description>
+          <span>购物车空空如也</span>
+        </template>
+        <RouterLink class="empty-cart-link" to="/">去逛逛</RouterLink>
+      </el-empty>
     </div>
   </div>
 </template>
@@ -111,11 +120,15 @@ const router = useRouter();
     }
     &.nothing {
       width: 350px;
-      height: 200px;
+      height: 245px;
       padding: 0;
       :deep(.el-empty) {
         justify-content: center;
+        padding: 18px 0 10px;
       }
+
+      .empty-cart-dragon { width: 100%; height: 100%; object-fit: contain; }
+      .empty-cart-link { color: #00b8ff; font-size: 13px; }
     }
     .foot {
       position: absolute;
@@ -126,7 +139,7 @@ const router = useRouter();
       padding: 10px;
       display: flex;
       justify-content: space-between;
-      background: #f8f8f8;
+    background: rgba(20, 30, 50, 0.92);
       align-items: center;
 
       .total {
@@ -154,17 +167,17 @@ const router = useRouter();
     }
 
     &::-webkit-scrollbar-track {
-      background: #f8f8f8;
+      background: rgba(20, 30, 50, 0.9);
       border-radius: 2px;
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #eee;
+      background: rgba(150, 168, 194, 0.35);
       border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-      background: #ccc;
+      background: rgba(150, 168, 194, 0.6);
     }
 
     .item {

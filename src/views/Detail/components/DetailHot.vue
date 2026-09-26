@@ -2,6 +2,7 @@
 import { getHotGoodsAPI } from "@/api/detail";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import DataLoading from "@/components/DataLoading.vue";
 
 const props = defineProps({
   title: {
@@ -13,13 +14,16 @@ const props = defineProps({
 });
 
 const hotList = ref([]);
+const loading = ref(true);
 const route = useRoute();
 const getHotList = async () => {
-  const res = await getHotGoodsAPI({
-    id: route.params.id,
-    type: props.hotType,
-  });
-  hotList.value = res.data.result;
+  try {
+    const res = await getHotGoodsAPI({
+      id: route.params.id,
+      type: props.hotType,
+    });
+    hotList.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getHotList();
 </script>
@@ -28,17 +32,21 @@ getHotList();
   <div class="goods-hot">
     <h3>{{ title }}</h3>
     <!-- 商品区块 -->
+    <div class="hot-results">
+    <DataLoading v-if="loading" label="正在载入热销商品" />
     <RouterLink to="/" class="goods-item" v-for="item in hotList" :key="item.id">
       <img :src="item.picture" alt="" />
       <p class="name ellipsis">{{ item.name }}</p>
       <p class="desc ellipsis">{{ item.desc }}</p>
       <p class="price">&yen;{{ item.price }}</p>
     </RouterLink>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .goods-hot {
+  .hot-results { position: relative; min-height: 260px; }
   h3 {
     height: 70px;
     background: $helpColor;

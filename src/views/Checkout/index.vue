@@ -12,8 +12,10 @@ import { useCartStore } from "@/stores/cartStore";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { regionData } from "element-china-area-data";
 import { Close, Edit } from "@element-plus/icons-vue";
+import DataLoading from "@/components/DataLoading.vue";
 
 const checkInfo = ref(); // 订单对象
+const checkoutLoading = ref(true);
 const curAddress = ref(); // 地址对象
 const editingAddressId = ref(null);
 const isEditingAddress = computed(() => editingAddressId.value !== null);
@@ -21,10 +23,12 @@ const router = useRouter();
 const cartStore = useCartStore();
 // 获取收货地址(拉取渲染数据)
 const getCheckout = async () => {
-  const res = await getCheckoutAPI();
-  checkInfo.value = res.data.result;
-  curAddress.value = checkInfo.value.userAddresses.find((item) => item.isDefault === 0);
-  console.log(res);
+  checkoutLoading.value = true;
+  try {
+    const res = await getCheckoutAPI();
+    checkInfo.value = res.data.result;
+    curAddress.value = checkInfo.value.userAddresses.find((item) => item.isDefault === 0);
+  } finally { checkoutLoading.value = false; }
 };
 getCheckout();
 // 删除收货地址（那个叉号）
@@ -309,7 +313,9 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 </script>
 
 <template>
-  <div class="xtx-pay-checkout-page" v-if="checkInfo">
+  <div class="xtx-pay-checkout-page">
+    <div class="container checkout-loading" v-if="checkoutLoading"><DataLoading label="正在载入结算信息" /></div>
+    <div v-else-if="checkInfo">
     <div class="container">
       <div class="wrapper">
         <!-- 收货地址 -->
@@ -407,6 +413,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
           <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
         </div>
       </div>
+    </div>
     </div>
   </div>
   <!-- 切换地址 -->
@@ -533,6 +540,7 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 <style scoped lang="scss">
 .xtx-pay-checkout-page {
   margin-top: 20px;
+  .checkout-loading { position: relative; height: 560px; }
 
   .wrapper {
     background: var(--color-card-bg);

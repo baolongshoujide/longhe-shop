@@ -2,18 +2,24 @@
 import { ref } from "vue";
 import HomePanel from "./HomePanel.vue";
 import { getHotAPI } from "@/api/home.js";
+import DataLoading from "@/components/DataLoading.vue";
 
 const hotList = ref([]);
+const loading = ref(true);
 const getHotList = async () => {
-  const res = await getHotAPI();
-  hotList.value = res.data.result;
+  try {
+    const res = await getHotAPI();
+    hotList.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getHotList();
 </script>
 
 <template>
   <HomePanel title="人气推荐" sub-titie="人气爆款 不容错过">
-    <ul class="goods-list">
+    <div class="goods-results">
+    <DataLoading v-if="loading" label="正在载入人气推荐" />
+    <ul v-else class="goods-list">
       <li v-for="item in hotList" :key="item.id">
         <RouterLink to="/">
           <img v-img-lazy="item.picture" alt="" />
@@ -22,6 +28,7 @@ getHotList();
         </RouterLink>
       </li>
     </ul>
+    </div>
   </HomePanel>
   <!-- 下面是插槽主体内容模版
   <ul class="goods-list">
@@ -79,4 +86,5 @@ getHotList();
     }
   }
 }
+.goods-results { position: relative; min-height: 406px; }
 </style>

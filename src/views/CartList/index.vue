@@ -1,6 +1,7 @@
 <script setup>
 import { useCartStore } from "@/stores/cartStore";
 import { useRouter } from "vue-router";
+import DataLoading from "@/components/DataLoading.vue";
 
 const cartStore = useCartStore();
 const cartList = cartStore.cartList;
@@ -14,6 +15,7 @@ const change = (i) => {
   <div class="xtx-cart-page">
     <div class="container m-top-20">
       <div class="cart">
+        <div class="cart-loading" v-if="cartStore.loading"><DataLoading label="正在载入购物车" /></div>
         <table>
           <thead>
             <tr>
@@ -104,6 +106,7 @@ const change = (i) => {
   margin-top: 20px;
 
   .cart {
+    position: relative;
     background: var(--color-card-bg);
     color: var(--color-text-muted);
 

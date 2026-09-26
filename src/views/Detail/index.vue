@@ -5,12 +5,18 @@ import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
 import { ElMessage } from "element-plus";
 import { useCartStore } from "@/stores/cartStore.js";
+import DataLoading from "@/components/DataLoading.vue";
 
 const goodsList = ref({});
+const loading = ref(true);
 const route = useRoute();
 const getGoodList = async () => {
-  const res = await getGoodsAPI(route.params.id);
-  goodsList.value = res.data.result;
+  try {
+    const res = await getGoodsAPI(route.params.id);
+    goodsList.value = res.data.result;
+  } finally {
+    loading.value = false;
+  }
 };
 
 // sku给操作时
@@ -48,7 +54,8 @@ const addCart = async () => {
 
 <template>
   <div class="xtx-goods-page">
-    <div class="container" v-if="goodsList.details">
+    <div class="container detail-loading" v-if="loading"><DataLoading label="正在载入商品详情" /></div>
+    <div class="container" v-else-if="goodsList.details">
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -165,6 +172,7 @@ const addCart = async () => {
 
 <style scoped lang="scss">
 .xtx-goods-page {
+  .detail-loading { position: relative; height: 600px; margin-top: 20px; }
   .goods-info {
     min-height: 600px;
     background: var(--color-card-bg);

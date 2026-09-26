@@ -2,9 +2,12 @@
 import { useBanner } from "./composables/useBanner.js";
 import { useCategory } from "./composables/useCategory.js";
 import GoodsItem from "../Home/components/GoodsItem.vue";
+import DataLoading from "@/components/DataLoading.vue";
+import { computed } from "vue";
 
-const { bannerList } = useBanner();
-const { category } = useCategory();
+const { bannerList, loading: bannerLoading } = useBanner();
+const { category, loading: categoryLoading } = useCategory();
+const contentLoading = computed(() => bannerLoading.value || categoryLoading.value);
 </script>
 
 <template>
@@ -14,37 +17,42 @@ const { category } = useCategory();
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ category.name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ category.name || "商品分类" }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <!-- 轮播图 -->
-      <div class="home-banner">
-        <el-carousel height="500px">
-          <el-carousel-item v-for="item in bannerList" :key="item">
-            <img v-img-lazy="item.imgUrl" alt="" />
-          </el-carousel-item>
-        </el-carousel>
+      <div v-if="contentLoading" class="category-loading-area">
+        <DataLoading active label="正在载入商城内容" />
       </div>
-      <!-- 分类 -->
-      <div class="sub-list">
-        <h3>全部分类</h3>
-        <ul>
-          <li v-for="i in category.children" :key="i.id">
-            <RouterLink :to="`/category/sub/${i.id}`">
-              <img v-img-lazy="i.picture" />
-              <p>{{ i.name }}</p>
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
-      <div class="ref-goods" v-for="item in category.children" :key="item.id">
-        <div class="head">
-          <h3>- {{ item.name }}-</h3>
+      <template v-else>
+        <!-- 轮播图 -->
+        <div class="home-banner">
+          <el-carousel height="500px">
+            <el-carousel-item v-for="item in bannerList" :key="item">
+              <img v-img-lazy="item.imgUrl" alt="" />
+            </el-carousel-item>
+          </el-carousel>
         </div>
-        <div class="body">
-          <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+        <!-- 分类 -->
+        <div class="sub-list">
+          <h3>全部分类</h3>
+          <ul>
+            <li v-for="i in category.children" :key="i.id">
+              <RouterLink :to="`/category/sub/${i.id}`">
+                <img v-img-lazy="i.picture" />
+                <p>{{ i.name }}</p>
+              </RouterLink>
+            </li>
+          </ul>
         </div>
-      </div>
+        <div class="ref-goods" v-for="item in category.children" :key="item.id">
+          <div class="head">
+            <h3>- {{ item.name }}-</h3>
+          </div>
+          <div class="body">
+            <GoodsItem v-for="good in item.goods" :good="good" :key="good.id" />
+          </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -60,6 +68,8 @@ const { category } = useCategory();
   }
 
   .sub-list {
+    position: relative;
+    min-height: 220px;
     margin-top: 20px;
     background-color: var(--color-card-bg);
 
@@ -125,8 +135,19 @@ const { category } = useCategory();
   .bread-container {
     padding: 25px 0;
   }
+
+  .category-loading-area {
+    position: relative;
+    height: clamp(420px, 72vh, 760px);
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 184, 255, 0.16);
+    border-radius: 5px;
+    background: transparent;
+  }
 }
 .home-banner {
+  position: relative;
   width: 1240px;
   height: 500px;
   margin: 0 auto;

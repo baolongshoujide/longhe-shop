@@ -2,18 +2,24 @@
 import { ref } from "vue";
 import HomePanel from "./HomePanel.vue";
 import { getNewAPI } from "@/api/home.js";
+import DataLoading from "@/components/DataLoading.vue";
 
 const newList = ref([]);
+const loading = ref(true);
 const getNewList = async () => {
-  const res = await getNewAPI();
-  newList.value = res.data.result;
+  try {
+    const res = await getNewAPI();
+    newList.value = res.data.result;
+  } finally { loading.value = false; }
 };
 getNewList();
 </script>
 
 <template>
   <HomePanel title="新鲜好物" sub-titie="新鲜出炉 品质靠谱">
-    <ul class="goods-list">
+    <div class="goods-results">
+    <DataLoading v-if="loading" label="正在载入新品" />
+    <ul v-else class="goods-list">
       <li v-for="item in newList" :key="item.id">
         <RouterLink :to="`/detail/${item.id}`">
           <img v-img-lazy="item.picture" alt="" />
@@ -22,6 +28,7 @@ getNewList();
         </RouterLink>
       </li>
     </ul>
+    </div>
   </HomePanel>
   <!-- 下面是插槽主体内容模版
   <ul class="goods-list">
@@ -78,4 +85,5 @@ getNewList();
     }
   }
 }
+.goods-results { position: relative; min-height: 406px; }
 </style>
