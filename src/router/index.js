@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/views/Login/index.vue";
 import Layout from "@/views/Layout/index.vue";
 import { useUserStore } from "@/stores/userStore";
-import { startLayoutTransitionLoading } from "@/utils/globalLoading";
+import { startHomeTransitionLoading, startLayoutTransitionLoading } from "@/utils/globalLoading";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -156,7 +156,12 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   const entersLayout = to.matched.some((record) => record.components?.default === Layout);
-  if (entersLayout && from.path === "/login") startLayoutTransitionLoading();
+  const isInitialLayoutEntry = entersLayout && from.matched.length === 0;
+  const returnsFromLogin = entersLayout && from.path === "/login";
+  if (isInitialLayoutEntry || returnsFromLogin) startLayoutTransitionLoading();
+  if (to.path === "/" && /^\/category\/[^/]+\/?$/.test(from.path)) {
+    startHomeTransitionLoading();
+  }
 
   const userStore = useUserStore();
   const token = userStore.user?.result?.token;

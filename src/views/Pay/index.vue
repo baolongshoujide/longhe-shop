@@ -51,7 +51,7 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
       </div>
       </template>
       <!-- 付款方式 -->
-      <div class="pay-type">
+      <div class="pay-type" v-if="!loading">
         <p class="head">选择以下支付方式付款</p>
         <div class="item">
           <p>支付平台</p>
@@ -74,7 +74,14 @@ const payUrl = `${baseURL}pay/aliPay?orderId=${route.params.id}&redirect=${redir
 <style scoped lang="scss">
 .xtx-pay-page {
   margin-top: 20px;
-  .pay-loading { position: relative; height: 500px; }
+  .pay-loading {
+    position: relative;
+    height: var(--small-loading-height);
+    overflow: hidden;
+    border: 1px solid rgba(0, 184, 255, 0.16);
+    border-radius: 5px;
+    background: transparent;
+  }
 }
 
 .pay-info {

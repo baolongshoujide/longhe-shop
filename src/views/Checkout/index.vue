@@ -314,6 +314,11 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 
 <template>
   <div class="xtx-pay-checkout-page">
+    <div class="container">
+      <div class="checkout-notice">
+        此页面数据由于接口问题可能与购物车不符。如无商品数据，请尝试更换商品。
+      </div>
+    </div>
     <div class="container checkout-loading" v-if="checkoutLoading"><DataLoading label="正在载入结算信息" /></div>
     <div v-else-if="checkInfo">
     <div class="container">
@@ -540,7 +545,25 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
 <style scoped lang="scss">
 .xtx-pay-checkout-page {
   margin-top: 20px;
-  .checkout-loading { position: relative; height: 560px; }
+  .checkout-notice {
+    margin-bottom: 14px;
+    padding: 12px 16px;
+    color: #ff6673;
+    background: rgba(255, 51, 68, 0.12);
+    border: 1px solid rgba(255, 51, 68, 0.55);
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .checkout-loading {
+    position: relative;
+    height: var(--small-loading-height);
+    overflow: hidden;
+    border: 1px solid rgba(0, 184, 255, 0.16);
+    border-radius: 5px;
+    background: transparent;
+  }
 
   .wrapper {
     background: var(--color-card-bg);

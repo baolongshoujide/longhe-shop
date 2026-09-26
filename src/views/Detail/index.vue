@@ -1,6 +1,6 @@
 <script setup>
 import { getGoodsAPI } from "@/api/detail";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import DetailHot from "./components/DetailHot.vue";
 import { ElMessage } from "element-plus";
@@ -9,7 +9,14 @@ import DataLoading from "@/components/DataLoading.vue";
 
 const goodsList = ref({});
 const loading = ref(true);
+const hotRequestsFinished = ref(0);
+const pageLoading = computed(
+  () => loading.value || (Boolean(goodsList.value.details) && hotRequestsFinished.value < 2),
+);
 const route = useRoute();
+const onHotLoaded = () => {
+  hotRequestsFinished.value += 1;
+};
 const getGoodList = async () => {
   try {
     const res = await getGoodsAPI(route.params.id);
@@ -54,20 +61,28 @@ const addCart = async () => {
 
 <template>
   <div class="xtx-goods-page">
-    <div class="container detail-loading" v-if="loading"><DataLoading label="正在载入商品详情" /></div>
-    <div class="container" v-else-if="goodsList.details">
+    <div class="container">
       <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/${goodsList.categories?.[1].id}` }"
+          <el-breadcrumb-item
+            v-if="goodsList.categories?.[1]"
+            :to="{ path: `/category/${goodsList.categories[1].id}` }"
             >{{ goodsList.categories?.[1].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: `/category/sub/${goodsList.categories?.[0].id}` }"
+          <el-breadcrumb-item
+            v-if="goodsList.categories?.[0]"
+            :to="{ path: `/category/sub/${goodsList.categories[0].id}` }"
             >{{ goodsList.categories?.[0].name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item>{{ goodsList.name }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ goodsList.name || "商品详情" }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
+      <div v-if="pageLoading" class="detail-loading-area">
+        <DataLoading active label="正在载入商品详情" />
+      </div>
+    </div>
+    <div class="container" v-if="goodsList.details" v-show="!pageLoading">
       <!-- 商品信息 -->
       <div class="info-container">
         <div>
@@ -160,8 +175,8 @@ const addCart = async () => {
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <DetailHot title="24小时热销榜" :hotType="1"></DetailHot>
-              <DetailHot title="周热销榜" :hotType="2"></DetailHot>
+              <DetailHot title="24小时热销榜" :hotType="1" @loaded="onHotLoaded"></DetailHot>
+              <DetailHot title="周热销榜" :hotType="2" @loaded="onHotLoaded"></DetailHot>
             </div>
           </div>
         </div>
@@ -172,7 +187,16 @@ const addCart = async () => {
 
 <style scoped lang="scss">
 .xtx-goods-page {
-  .detail-loading { position: relative; height: 600px; margin-top: 20px; }
+  .detail-loading-area {
+    position: relative;
+    height: var(--small-loading-height);
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 184, 255, 0.16);
+    border-radius: 5px;
+    background: transparent;
+  }
+
   .goods-info {
     min-height: 600px;
     background: var(--color-card-bg);

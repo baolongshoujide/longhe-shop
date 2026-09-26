@@ -138,7 +138,7 @@ const contentLoading = computed(() => bannerLoading.value || categoryLoading.val
 
   .category-loading-area {
     position: relative;
-    height: clamp(420px, 72vh, 760px);
+    height: var(--small-loading-height);
     margin-top: 12px;
     overflow: hidden;
     border: 1px solid rgba(0, 184, 255, 0.16);

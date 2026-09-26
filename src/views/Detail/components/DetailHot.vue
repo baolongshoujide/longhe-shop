@@ -2,7 +2,6 @@
 import { getHotGoodsAPI } from "@/api/detail";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
-import DataLoading from "@/components/DataLoading.vue";
 
 const props = defineProps({
   title: {
@@ -12,9 +11,9 @@ const props = defineProps({
     type: Number,
   },
 });
+const emit = defineEmits(["loaded"]);
 
 const hotList = ref([]);
-const loading = ref(true);
 const route = useRoute();
 const getHotList = async () => {
   try {
@@ -23,7 +22,9 @@ const getHotList = async () => {
       type: props.hotType,
     });
     hotList.value = res.data.result;
-  } finally { loading.value = false; }
+  } finally {
+    emit("loaded");
+  }
 };
 getHotList();
 </script>
@@ -33,7 +34,6 @@ getHotList();
     <h3>{{ title }}</h3>
     <!-- 商品区块 -->
     <div class="hot-results">
-    <DataLoading v-if="loading" label="正在载入热销商品" />
     <RouterLink to="/" class="goods-item" v-for="item in hotList" :key="item.id">
       <img :src="item.picture" alt="" />
       <p class="name ellipsis">{{ item.name }}</p>

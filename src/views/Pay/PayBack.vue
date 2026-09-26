@@ -89,5 +89,13 @@ getOrderInfo();
     margin-top: 50px;
   }
 }
-.result-loading { position: relative; height: 500px; margin-top: 20px; }
+.result-loading {
+  position: relative;
+  height: var(--small-loading-height);
+  margin-top: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 184, 255, 0.16);
+  border-radius: 5px;
+  background: transparent;
+}
 </style>

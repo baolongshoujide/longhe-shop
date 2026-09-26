@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { delCartAPI, addCartAPI, getCartListAPI } from "@/api/cart";
+import { delCartAPI, addCartAPI, getCartListAPI, updateCartAPI } from "@/api/cart";
 import { ElMessage } from "element-plus";
 
 import { useUserStore } from "./userStore";
@@ -76,10 +76,23 @@ export const useCartStore = defineStore(
         })
       );
     });
-    const changeAll = (selected) => {
+    const changeAll = async (selected) => {
       cartList.value.forEach((item) => {
         item.selected = selected;
       });
+      const results = await Promise.allSettled(
+        cartList.value.map((item) =>
+          updateCartAPI({ skuId: item.skuId, count: item.count, selected }),
+        ),
+      );
+      if (results.some((result) => result.status === "rejected")) await getCartList();
+    };
+    const updateCart = async ({ skuId, count, selected }) => {
+      try {
+        await updateCartAPI({ skuId, count, selected });
+      } catch {
+        await getCartList();
+      }
     };
     const checkedNum = computed(() => {
       return cartList.value.reduce((sum, item) => {
@@ -106,6 +119,7 @@ export const useCartStore = defineStore(
       price,
       isAll,
       changeAll,
+      updateCart,
       checkedNum,
       checkedPrice,
       clearCartList,

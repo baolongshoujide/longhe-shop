@@ -7,14 +7,14 @@ const cartStore = useCartStore();
 const cartList = cartStore.cartList;
 const router = useRouter();
 const change = (i) => {
-  console.log(i);
+  cartStore.updateCart(i);
 };
 </script>
 
 <template>
   <div class="xtx-cart-page">
     <div class="container m-top-20">
-      <div class="cart">
+      <div class="cart" :class="{ 'is-loading': cartStore.loading }">
         <div class="cart-loading" v-if="cartStore.loading"><DataLoading label="正在载入购物车" /></div>
         <table>
           <thead>
@@ -92,7 +92,7 @@ const change = (i) => {
           <span class="red">¥ {{ cartStore.checkedPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
-          <el-button size="large" type="primary" @click="router.push('/checkout')"
+          <el-button size="large" type="primary" :disabled="cartStore.checkedNum === 0" @click="router.push('/checkout')"
             >下单结算</el-button
           >
         </div>
@@ -109,6 +109,23 @@ const change = (i) => {
     position: relative;
     background: var(--color-card-bg);
     color: var(--color-text-muted);
+
+    &.is-loading {
+      min-height: var(--small-loading-height);
+
+      table { display: none; }
+    }
+
+    .cart-loading {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      min-height: var(--small-loading-height);
+      overflow: hidden;
+      border: 1px solid rgba(0, 184, 255, 0.16);
+      border-radius: 5px;
+      background: rgba(8, 12, 24, 0.92);
+    }
 
     table {
       border-spacing: 0;
