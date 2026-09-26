@@ -1,7 +1,6 @@
 <script setup>
 import { useCategoryStore } from "@/stores/categoryStore.js";
 import HeaderCart from "./HeaderCart.vue";
-import DataLoading from "@/components/DataLoading.vue";
 const categoryStore = useCategoryStore();
 </script>
 
@@ -12,15 +11,12 @@ const categoryStore = useCategoryStore();
         <RouterLink to="/">龙核商城</RouterLink>
       </h1>
       <div class="nav-container">
-        <DataLoading v-if="categoryStore.loading" label="正在载入导航" />
         <ul class="app-header-nav">
           <li>
             <RouterLink to="/">首页</RouterLink>
           </li>
           <li class="home" v-for="item in categoryStore.cateList" :key="item.id">
-            <RouterLink active-class="active" :to="`/category/${item.id}`">{{
-              item.name
-            }}</RouterLink>
+            <RouterLink active-class="active" :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
           </li>
         </ul>
       </div>
@@ -62,7 +58,7 @@ const categoryStore = useCategoryStore();
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url("@/assets/images/rex-logo-transparent.png") no-repeat left center / 270px auto;
+      background: url("@/assets/images/logo.png") no-repeat left center / 270px auto;
     }
   }
 

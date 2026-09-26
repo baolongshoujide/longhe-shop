@@ -62,7 +62,7 @@ const { y } = useScroll(window);
   .logo {
     width: 200px;
     height: 80px;
-    background: url("@/assets/images/rex-logo-transparent.png") no-repeat right center / 190px auto;
+    background: url("@/assets/images/logo.png") no-repeat right center / 190px auto;
   }
 
   .right {

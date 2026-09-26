@@ -8,7 +8,6 @@ export const useCategoryStore = defineStore("category", () => {
   let categoryRequest;
 
   const getCategory = async () => {
-    if (cateList.value.length) return cateList.value;
     if (categoryRequest) return categoryRequest;
     loading.value = true;
     categoryRequest = getCategoryAPI()
@@ -18,7 +17,6 @@ export const useCategoryStore = defineStore("category", () => {
       })
       .finally(() => {
         loading.value = false;
-        categoryRequest = undefined;
       });
     return categoryRequest;
   };

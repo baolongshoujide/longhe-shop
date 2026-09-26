@@ -129,7 +129,7 @@ const submit = () => {
       height: 132px;
       width: 100%;
       text-indent: -9999px;
-      background: url("@/assets/images/rex-logo-transparent.png") no-repeat center / contain;
+      background: url("@/assets/images/logo.png") no-repeat center / contain;
     }
   }
 
@@ -157,8 +157,8 @@ const submit = () => {
 
 .login-section {
   background:
-    linear-gradient(100deg, rgba(8, 12, 24, 0.5), rgba(8, 12, 24, 0.84)),
-    url("@/assets/images/login-bg.png") no-repeat center / cover;
+    radial-gradient(ellipse at 72% 48%, rgba(0, 184, 255, 0.18), transparent 42%),
+    linear-gradient(115deg, #080c18 8%, #0b1b30 52%, #080c18 100%);
   height: 488px;
   position: relative;
 

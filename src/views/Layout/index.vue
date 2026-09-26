@@ -4,16 +4,15 @@ import LayoutHeader from "./components/LayoutHeader.vue";
 import LayoutNav from "./components/LayoutNav.vue";
 import LayoutFixed from "./components/LayoutFixed.vue";
 import { useCategoryStore } from "@/stores/categoryStore.js";
-import { useAllGoodsListStore } from "@/stores/AllGoodsList.js";
 import DataLoading from "@/components/DataLoading.vue";
 import { useRoute } from "vue-router";
-
-const AllGoodsListStore = useAllGoodsListStore();
-AllGoodsListStore.getAllGoodsList();
+import { onMounted } from "vue";
+import { finishLayoutTransitionLoadingWhenIdle } from "@/utils/globalLoading";
 
 const categoryStore = useCategoryStore();
 categoryStore.getCategory();
 const route = useRoute();
+onMounted(finishLayoutTransitionLoadingWhenIdle);
 </script>
 <template>
   <LayoutFixed></LayoutFixed>
@@ -22,7 +21,11 @@ const route = useRoute();
   <div class="layout-content">
     <router-view></router-view>
     <LayoutFooter></LayoutFooter>
-    <DataLoading :active="!route.path.startsWith('/category/')" global label="正在载入商城内容" />
+    <DataLoading
+      :active="route.path === '/' || !route.path.startsWith('/category/')"
+      global
+      label="正在载入商城内容"
+    />
   </div>
 </template>
 

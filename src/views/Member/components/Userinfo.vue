@@ -58,7 +58,9 @@ console.log(userStore.user);
 <style scoped lang="scss">
 .home-overview {
   height: 132px;
-  background: url(@/assets/images/center-bg.png) no-repeat center / cover;
+  background:
+    radial-gradient(ellipse at 82% 35%, rgba(0, 184, 255, 0.2), transparent 38%),
+    linear-gradient(110deg, #101b30, #0b1527 58%, #10243a);
   display: flex;
 
   .user-meta {
