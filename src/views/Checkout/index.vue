@@ -28,7 +28,9 @@ const getCheckout = async () => {
     const res = await getCheckoutAPI();
     checkInfo.value = res.data.result;
     curAddress.value = checkInfo.value.userAddresses.find((item) => item.isDefault === 0);
-  } finally { checkoutLoading.value = false; }
+  } finally {
+    checkoutLoading.value = false;
+  }
 };
 getCheckout();
 // 删除收货地址（那个叉号）
@@ -319,106 +321,108 @@ const addressTags = computed(() => [...defaultTags, ...customTags.value]);
         此页面数据由于接口问题可能与购物车不符。如无商品数据，请尝试更换商品。
       </div>
     </div>
-    <div class="container checkout-loading" v-if="checkoutLoading"><DataLoading label="正在载入结算信息" /></div>
+    <div class="container checkout-loading" v-if="checkoutLoading">
+      <DataLoading label="正在载入结算信息" />
+    </div>
     <div v-else-if="checkInfo">
-    <div class="container">
-      <div class="wrapper">
-        <!-- 收货地址 -->
-        <h3 class="box-title">收货地址</h3>
-        <div class="box-body">
-          <div class="address">
-            <div class="text">
-              <div class="none" v-if="!curAddress">您需要先添加收货地址才可提交订单。</div>
-              <ul v-else>
-                <li>
-                  <span>收<i />货<i />人：</span>{{ curAddress.receiver }}
-                </li>
-                <li><span>联系方式：</span>{{ curAddress.contact }}</li>
-                <li>
-                  <span>收货地址：</span>{{ getFullAddress(curAddress) }} {{ curAddress.address }}
-                </li>
-              </ul>
-            </div>
-            <div class="action">
-              <el-button size="large" @click="showDialog = true">切换地址</el-button>
-              <el-button size="large" @click="addButton">添加地址</el-button>
+      <div class="container">
+        <div class="wrapper">
+          <!-- 收货地址 -->
+          <h3 class="box-title">收货地址</h3>
+          <div class="box-body">
+            <div class="address">
+              <div class="text">
+                <div class="none" v-if="!curAddress">您需要先添加收货地址才可提交订单。</div>
+                <ul v-else>
+                  <li>
+                    <span>收<i />货<i />人：</span>{{ curAddress.receiver }}
+                  </li>
+                  <li><span>联系方式：</span>{{ curAddress.contact }}</li>
+                  <li>
+                    <span>收货地址：</span>{{ getFullAddress(curAddress) }} {{ curAddress.address }}
+                  </li>
+                </ul>
+              </div>
+              <div class="action">
+                <el-button size="large" @click="showDialog = true">切换地址</el-button>
+                <el-button size="large" @click="addButton">添加地址</el-button>
+              </div>
             </div>
           </div>
-        </div>
-        <!-- 商品信息 -->
-        <h3 class="box-title">商品信息</h3>
-        <div class="box-body">
-          <table class="goods">
-            <thead>
-              <tr>
-                <th width="520">商品信息</th>
-                <th width="170">单价</th>
-                <th width="170">数量</th>
-                <th width="170">小计</th>
-                <th width="170">实付</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="i in checkInfo?.goods" :key="i.id">
-                <td>
-                  <a href="javascript:;" class="info">
-                    <img :src="i.picture" alt="" />
-                    <div class="right">
-                      <p>{{ i.name }}</p>
-                      <p>{{ i.attrsText }}</p>
-                    </div>
-                  </a>
-                </td>
-                <td>&yen;{{ i.price }}</td>
-                <td>{{ i.count }}</td>
-                <td>&yen;{{ i.totalPrice }}</td>
-                <td>&yen;{{ i.totalPayPrice }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- 配送时间 -->
-        <h3 class="box-title">配送时间</h3>
-        <div class="box-body">
-          <a class="my-btn active" href="javascript:;">不限送货时间：周一至周日</a>
-          <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>
-          <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>
-        </div>
-        <!-- 支付方式 -->
-        <h3 class="box-title">支付方式</h3>
-        <div class="box-body">
-          <a class="my-btn active" href="javascript:;">在线支付</a>
-          <a class="my-btn" href="javascript:;">货到付款</a>
-          <span style="color: var(--color-text-muted)">货到付款需付5元手续费</span>
-        </div>
-        <!-- 金额明细 -->
-        <h3 class="box-title">金额明细</h3>
-        <div class="box-body">
-          <div class="total">
-            <dl>
-              <dt>商品件数：</dt>
-              <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
-            </dl>
-            <dl>
-              <dt>商品总价：</dt>
-              <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
-            </dl>
-            <dl>
-              <dt>运<i></i>费：</dt>
-              <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
-            </dl>
-            <dl>
-              <dt>应付总额：</dt>
-              <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
-            </dl>
+          <!-- 商品信息 -->
+          <h3 class="box-title">商品信息</h3>
+          <div class="box-body">
+            <table class="goods">
+              <thead>
+                <tr>
+                  <th width="520">商品信息</th>
+                  <th width="170">单价</th>
+                  <th width="170">数量</th>
+                  <th width="170">小计</th>
+                  <th width="170">实付</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="i in checkInfo?.goods" :key="i.id">
+                  <td>
+                    <a href="javascript:;" class="info">
+                      <img :src="i.picture" alt="" />
+                      <div class="right">
+                        <p>{{ i.name }}</p>
+                        <p>{{ i.attrsText }}</p>
+                      </div>
+                    </a>
+                  </td>
+                  <td>&yen;{{ i.price }}</td>
+                  <td>{{ i.count }}</td>
+                  <td>&yen;{{ i.totalPrice }}</td>
+                  <td>&yen;{{ i.totalPayPrice }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <!-- 提交订单 -->
-        <div class="submit">
-          <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
+          <!-- 配送时间 -->
+          <h3 class="box-title">配送时间</h3>
+          <div class="box-body">
+            <a class="my-btn active" href="javascript:;">不限送货时间：周一至周日</a>
+            <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>
+            <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>
+          </div>
+          <!-- 支付方式 -->
+          <h3 class="box-title">支付方式</h3>
+          <div class="box-body">
+            <a class="my-btn active" href="javascript:;">在线支付</a>
+            <a class="my-btn" href="javascript:;">货到付款</a>
+            <!-- <span style="color: var(--color-text-muted)">货到付款需付5元手续费</span> -->
+          </div>
+          <!-- 金额明细 -->
+          <h3 class="box-title">金额明细</h3>
+          <div class="box-body">
+            <div class="total">
+              <dl>
+                <dt>商品件数：</dt>
+                <dd>{{ checkInfo.summary?.goodsCount }}件</dd>
+              </dl>
+              <dl>
+                <dt>商品总价：</dt>
+                <dd>¥{{ checkInfo.summary?.totalPrice.toFixed(2) }}</dd>
+              </dl>
+              <dl>
+                <dt>运<i></i>费：</dt>
+                <dd>¥{{ checkInfo.summary?.postFee.toFixed(2) }}</dd>
+              </dl>
+              <dl>
+                <dt>应付总额：</dt>
+                <dd class="price">{{ checkInfo.summary?.totalPayPrice.toFixed(2) }}</dd>
+              </dl>
+            </div>
+          </div>
+          <!-- 提交订单 -->
+          <div class="submit">
+            <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
+          </div>
         </div>
       </div>
-    </div>
     </div>
   </div>
   <!-- 切换地址 -->
