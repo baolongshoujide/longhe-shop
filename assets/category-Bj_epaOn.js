@@ -1,1 +1,0 @@
-import{c as e}from"./index-9l6kkvfj.js";var t=t=>e.get(`/category`,{params:{id:t}}),n=t=>e({url:`/category/sub/filter`,params:{id:t}}),r=t=>e({url:`/category/goods/temporary`,method:`POST`,data:t});export{n,r,t};

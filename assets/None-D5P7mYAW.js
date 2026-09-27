@@ -1,1 +1,0 @@
-import{Lt as e,Mt as t,gn as n,kt as r,tn as i,yt as a}from"./style-CV5sXq65.js";import{d as o}from"./index-9l6kkvfj.js";var s={};function c(a,s){let c=o;return i(),t(`div`,null,[e(c,{"image-size":300},{description:n(()=>[...s[0]||=[r(`div`,{class:`empty-text`},[r(`p`,null,`功能正在开发中~`),r(`p`,null,`敬请期待`)],-1)]]),_:1})])}var l=a(s,[[`render`,c]]);export{l as default};

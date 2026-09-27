@@ -1,0 +1,1 @@
+import{c as e}from"./index-bddjmfj1.js";var t=t=>e({url:`/member/order/${t}`});export{t};
