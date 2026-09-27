@@ -1,11 +1,16 @@
 <script setup>
 import { useUserStore } from "@/stores/userStore";
+import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const router = useRouter();
 const confirm = () => {
   userStore.delUser();
+};
+
+const noLogin = () => {
+  ElMessage.warning("请先登录");
 };
 </script>
 
@@ -36,8 +41,8 @@ const confirm = () => {
         </template>
         <template v-else>
           <li><a href="javascript:;" @click="$router.push('/login')">请先登录</a></li>
-          <li><a href="javascript:;">帮助中心</a></li>
-          <li><a href="javascript:;">关于我们</a></li>
+          <li><a href="javascript:;" @click="noLogin">帮助中心</a></li>
+          <li><a href="javascript:;" @click="noLogin">关于我们</a></li>
         </template>
       </ul>
     </div>
@@ -72,7 +77,7 @@ const confirm = () => {
 
       ~ li {
         a {
-        border-left: 1px solid #29445f;
+          border-left: 1px solid #29445f;
         }
       }
     }
